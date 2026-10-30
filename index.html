@@ -103,7 +103,7 @@
             border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
-            min-width: 120px;
+            min-width: 140px;
         }
 
         th {
@@ -197,7 +197,7 @@
                 <div class="card">
                     <h4 data-i18n="add_user">Add New User & Assign Rights</h4>
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
-                        <input type="text" id="newUsername" placeholder="Username">
+                        <input type="text" id="newUsername" placeholder="Username (Col A Name)">
                         <input type="password" id="newPassword" placeholder="Password">
                         <select id="newUserRole">
                             <option value="employee">Employee</option>
@@ -205,7 +205,7 @@
                         </select>
                     </div>
 
-                    <h5 style="margin-top: 15px;" data-i18n="select_visible_cols">Select Editable/Visible Columns (A to O):</h5>
+                    <h5 style="margin-top: 15px;" data-i18n="select_visible_cols">Select Editable/Visible Columns:</h5>
                     <div class="permissions-grid" id="colPermissions">
                         <!-- Checkboxes generated via JS -->
                     </div>
@@ -230,13 +230,16 @@
             <div id="dataSheetTab" class="tab-content card">
                 <h4 data-i18n="performance_sheet">Performance Entry Sheet</h4>
                 
-                <!-- Admin Task Assignment Box -->
-                <div id="assignTaskBox" class="card hidden" style="background: #eef6fc;">
-                    <h5 data-i18n="assign_task_title">Assign Task (Col G) to Employee (Col A)</h5>
-                    <div style="display:flex; gap:10px;">
+                <!-- Admin Task & Salary Management Box -->
+                <div id="adminActionBox" class="card hidden" style="background: #eef6fc;">
+                    <h5 data-i18n="admin_action_title">Admin Panel: Assign Daily Task & Salary</h5>
+                    <div style="display:flex; gap:10px; flex-wrap: wrap; align-items: center;">
+                        <label>Date:</label>
+                        <input type="date" id="inputDate" style="width: 140px;">
                         <select id="assignUserSelect"></select>
+                        <input type="number" id="inputSalary" placeholder="Salary (Col B)" style="width: 130px;">
                         <select id="assignTaskSelect"></select>
-                        <button onclick="assignTaskToUser()" data-i18n="btn_assign">Assign Task</button>
+                        <button onclick="assignDailyTask()" data-i18n="btn_assign">Add Daily Entry</button>
                     </div>
                 </div>
 
@@ -274,15 +277,16 @@
                 tab_tasks: "માસ્ટર ટાસ્ક લિસ્ટ (કોલમ G)",
                 tab_data: "પર્ફોર્મન્સ ડેટા શીટ",
                 add_user: "નવો યુઝર અને રાઈટ્સ ઉમેરો",
-                select_visible_cols: "એક્સેસ આપવાની હોય તે કોલમ પસંદ કરો (A થી O):",
+                select_visible_cols: "એક્સેસ આપવાની હોય તે કોલમ પસંદ કરો:",
                 btn_create_user: "યુઝર સેટિંગ્સ સેવ કરો",
                 add_task: "માસ્ટર ટાસ્ક ઉમેરો (કોલમ G)",
                 btn_add_task: "ટાસ્ક એડ કરો",
                 performance_sheet: "પર્ફોર્મન્સ ડેટા એન્ટ્રી શીટ",
-                assign_task_title: "કોલમ A ના કર્મચારીને કોલમ G નો ટાસ્ક એસાઇન કરો",
-                btn_assign: "ટાસ્ક એસાઇન કરો",
+                admin_action_title: "એડમિન પેનલ: તારીખ સાથે કર્મચારીને સેલેરી અને ટાસ્ક એસાઇન કરો",
+                btn_assign: "રોજની એન્ટ્રી ઉમેરો",
                 btn_save_data: "ડેટા સેવ કરો",
                 cols: {
+                    dateCol: "Date (તારીખ)",
                     colA: "A: Name (નામ)",
                     colB: "B: Salary (સેલેરી)",
                     colC: "C: 10% Incentive",
@@ -312,15 +316,16 @@
                 tab_tasks: "Master Task List (Col G)",
                 tab_data: "Performance Data Sheet",
                 add_user: "Add New User & Set Rights",
-                select_visible_cols: "Select Visible/Editable Columns (A to O):",
+                select_visible_cols: "Select Visible/Editable Columns:",
                 btn_create_user: "Save User Rights",
                 add_task: "Add Master Task (Col G)",
                 btn_add_task: "Add Task",
                 performance_sheet: "Performance Entry Sheet",
-                assign_task_title: "Assign Col G Task to Col A Employee",
-                btn_assign: "Assign Task",
+                admin_action_title: "Admin Panel: Assign Daily Task & Salary with Date",
+                btn_assign: "Add Daily Entry",
                 btn_save_data: "Save Data",
                 cols: {
+                    dateCol: "Date",
                     colA: "A: Name",
                     colB: "B: Salary",
                     colC: "C: 10% Incentive",
@@ -350,15 +355,16 @@
                 tab_tasks: "मास्टर टास्क लिस्ट (कॉलम G)",
                 tab_data: "परफॉरमेंस डेटा शीट",
                 add_user: "नया यूज़र और राइट्स जोड़ें",
-                select_visible_cols: "एक्सेस देने वाले कॉलम चुनें (A से O):",
+                select_visible_cols: "एक्सेस देने वाले कॉलम चुनें:",
                 btn_create_user: "यूज़र सेटिंग्स सेव करें",
                 add_task: "मास्टर टास्क जोड़ें (कॉलम G)",
                 btn_add_task: "टास्क जोड़ें",
                 performance_sheet: "परफॉरमेंस डेटा एंट्री शीट",
-                assign_task_title: "कॉलम A के कर्मचारी को कॉलम G का टास्क असाइन करें",
-                btn_assign: "टास्क असाइन करें",
+                admin_action_title: "एडमिन पैनल: तारीख के साथ कर्मचारी को सैलरी और टास्क असाइन करें",
+                btn_assign: "दैनिक एंट्री जोड़ें",
                 btn_save_data: "डेटा सेव करें",
                 cols: {
+                    dateCol: "Date (तारीख)",
                     colA: "A: Name (नाम)",
                     colB: "B: Salary (सैलेरी)",
                     colC: "C: 10% Incentive",
@@ -378,24 +384,22 @@
             }
         };
 
-        const colKeys = ['colA', 'colB', 'colC', 'colD', 'colE', 'colF', 'colG', 'colH', 'colI', 'colJ', 'colK', 'colL', 'colM', 'colN', 'colO'];
+        const colKeys = ['dateCol', 'colA', 'colB', 'colC', 'colD', 'colE', 'colF', 'colG', 'colH', 'colI', 'colJ', 'colK', 'colL', 'colM', 'colN', 'colO'];
 
-        // Initial Local Storage Default Data
         let currentLang = 'gu';
         let currentUser = null;
 
         let users = JSON.parse(localStorage.getItem('app_users')) || [
             { username: 'admin', password: '123', role: 'admin', rights: colKeys },
-            { username: 'Demo', password: '123', role: 'employee', rights: ['colA', 'colG', 'colH'] }
+            { username: 'Demo', password: '123', role: 'employee', rights: ['dateCol', 'colA', 'colG', 'colH'] }
         ];
 
         let masterTasks = JSON.parse(localStorage.getItem('app_tasks')) || ["Task 1", "Task 2", "Task 3"];
         
         let sheetData = JSON.parse(localStorage.getItem('app_sheet_data')) || [
-            { colA: 'Demo', colB: 10000, colC: 1000, colD: 33.33, colE: 100, colF: 100, colG: 'Task 1', colH: 'Completed', colI: 100, colJ: 10, colK: 2.33, colL: 1000, colM: 900, colN: 0, colO: 0 }
+            { dateCol: '2026-06-07', colA: 'Demo', colB: 15000, colC: 1500, colD: 50, colE: 150, colF: 150, colG: 'Task 1', colH: 'Incomplete', colI: 0, colJ: 0, colK: 0, colL: 0, colM: 0, colN: 0, colO: 0 }
         ];
 
-        // Language Switcher Function
         function changeLanguage(lang) {
             currentLang = lang;
             document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -408,7 +412,6 @@
             renderSheetTable();
         }
 
-        // Login Logic
         function login() {
             const u = document.getElementById('loginUsername').value;
             const p = document.getElementById('loginPassword').value;
@@ -421,13 +424,18 @@
                 document.getElementById('logoutBtn').classList.remove('hidden');
                 document.getElementById('welcomeMsg').innerText = translations[currentLang].welcome + currentUser.username;
 
+                // Set today's date by default in admin input
+                const today = new Date().toISOString().split('T')[0];
+                const dateInput = document.getElementById('inputDate');
+                if(dateInput) dateInput.value = today;
+
                 if (currentUser.role === 'admin') {
                     document.getElementById('adminNav').classList.remove('hidden');
-                    document.getElementById('assignTaskBox').classList.remove('hidden');
+                    document.getElementById('adminActionBox').classList.remove('hidden');
                     switchTab('userMgmt');
                 } else {
                     document.getElementById('adminNav').classList.add('hidden');
-                    document.getElementById('assignTaskBox').classList.add('hidden');
+                    document.getElementById('adminActionBox').classList.add('hidden');
                     switchTab('dataSheet');
                 }
                 populateTaskAssignOptions();
@@ -459,7 +467,6 @@
             }
         }
 
-        // Render Checkboxes for User Rights Creation
         function renderPermissionsCheckboxes() {
             const container = document.getElementById('colPermissions');
             container.innerHTML = '';
@@ -495,11 +502,10 @@
             }
 
             localStorage.setItem('app_users', JSON.stringify(users));
-            alert("User saved successfully!");
+            alert("User and Rights saved successfully!");
             populateTaskAssignOptions();
         }
 
-        // Master Task List Functions
         function addMasterTask() {
             const t = document.getElementById('newTaskName').value;
             if (t) {
@@ -542,19 +548,39 @@
             });
         }
 
-        function assignTaskToUser() {
+        function assignDailyTask() {
+            const dt = document.getElementById('inputDate').value;
             const u = document.getElementById('assignUserSelect').value;
+            const sal = parseFloat(document.getElementById('inputSalary').value) || 0;
             const t = document.getElementById('assignTaskSelect').value;
 
+            if (!dt) return alert("Please select a date!");
+
+            let c = sal * 0.10;
             sheetData.push({
-                colA: u, colB: 0, colC: 0, colD: 0, colE: 0, colF: 0, colG: t, colH: 'Incomplete', colI: 0, colJ: 0, colK: 0, colL: 0, colM: 0, colN: 0, colO: 0
+                dateCol: dt,
+                colA: u, 
+                colB: sal, 
+                colC: c, 
+                colD: (c/30).toFixed(2), 
+                colE: sal * 0.01, 
+                colF: sal * 0.01, 
+                colG: t, 
+                colH: 'Incomplete', 
+                colI: 0, 
+                colJ: 0, 
+                colK: 0, 
+                colL: 0, 
+                colM: 0, 
+                colN: 0, 
+                colO: 0
             });
+
             localStorage.setItem('app_sheet_data', JSON.stringify(sheetData));
-            alert("Task Assigned to User!");
+            alert("Daily Task & Entry Added Successfully!");
             renderSheetTable();
         }
 
-        // Data Sheet Rendering Logic with User Rights Filter
         function renderSheetTable() {
             const headerTr = document.getElementById('tableHeader');
             const bodyTb = document.getElementById('tableBody');
@@ -563,14 +589,12 @@
 
             const userRights = currentUser.role === 'admin' ? colKeys : currentUser.rights;
 
-            // Render Visible Columns Headers
             colKeys.forEach(colKey => {
                 if (userRights.includes(colKey)) {
                     headerTr.innerHTML += `<th>${translations[currentLang].cols[colKey]}</th>`;
                 }
             });
 
-            // Filter Rows (Admin sees all, Employee sees only assigned rows in Col A)
             const visibleRows = currentUser.role === 'admin' ? sheetData : sheetData.filter(row => row.colA === currentUser.username);
 
             visibleRows.forEach((row, rowIndex) => {
@@ -579,11 +603,28 @@
                     if (userRights.includes(colKey)) {
                         let td = document.createElement('td');
                         
-                        // Editable Input vs Fixed display
-                        if (colKey === 'colG' && currentUser.role === 'employee') {
-                            td.innerText = row[colKey] || ''; // Col G read-only for employee
+                        let isEditable = true;
+                        if (currentUser.role === 'employee') {
+                            // Employees can only update column H (Completed/Incomplete) for their rows
+                            if (colKey !== 'colH') {
+                                isEditable = false; 
+                            }
+                        }
+
+                        if (!isEditable) {
+                            td.innerText = row[colKey] || '';
                         } else {
-                            td.innerHTML = `<input type="text" value="${row[colKey] || ''}" onchange="updateCellData(${rowIndex}, '${colKey}', this.value)">`;
+                            if (colKey === 'colH') {
+                                // Dropdown for Completed / Incomplete
+                                td.innerHTML = `
+                                    <select onchange="updateCellData(${rowIndex}, '${colKey}', this.value)">
+                                        <option value="Incomplete" ${row[colKey] === 'Incomplete' ? 'selected' : ''}>Incomplete</option>
+                                        <option value="Completed" ${row[colKey] === 'Completed' ? 'selected' : ''}>Completed</option>
+                                    </select>
+                                `;
+                            } else {
+                                td.innerHTML = `<input type="text" value="${row[colKey] || ''}" onchange="updateCellData(${rowIndex}, '${colKey}', this.value)">`;
+                            }
                         }
                         tr.appendChild(td);
                     }
@@ -596,13 +637,14 @@
             const visibleRows = currentUser.role === 'admin' ? sheetData : sheetData.filter(row => row.colA === currentUser.username);
             visibleRows[rowIndex][colKey] = value;
             
-            // Formula Calculations (Automated as per sheet rules)
             let r = visibleRows[rowIndex];
-            let x = parseFloat(r.colB) || 0; // Salary
-            r.colC = x * 0.10; // 10% Incentive
-            r.colD = (r.colC / 30).toFixed(2); // Per day incentive
-            r.colE = x * 0.01; // 1% indiscipline
-            r.colF = x * 0.01; // 1% over time
+            if (colKey === 'colB') {
+                let x = parseFloat(r.colB) || 0;
+                r.colC = x * 0.10;
+                r.colD = (r.colC / 30).toFixed(2);
+                r.colE = x * 0.01;
+                r.colF = x * 0.01;
+            }
 
             localStorage.setItem('app_sheet_data', JSON.stringify(sheetData));
         }
@@ -612,7 +654,6 @@
             alert("Data saved successfully!");
         }
 
-        // Initialize on Load
         renderPermissionsCheckboxes();
     </script>
 </body>
