@@ -428,7 +428,7 @@
                 add_user: "નવો યુઝર/એડમિન અને રાઈટ્સ ઉમેરો",
                 select_visible_cols: "એક્સેસ આપવાની હોય તે કોલમ પસંદ કરો:",
                 btn_create_user: "યુઝર સેટિંગ્સ સેવ કરો",
-                add_task: "માસ્ટર ટಾસ્ક ઉમેરો (કોલમ G)",
+                add_task: "માસ્ટર ટાસ્ક ઉમેરો (કોલમ G)",
                 btn_add_task: "ટાસ્ક એડ કરો",
                 performance_sheet: "પર્ફોર્મન્સ ડેટા એન્ટ્રી શીટ",
                 admin_action_title: "એડમિન પેનલ: તારીખ, સેલેરી, ટાસ્ક અને પ્રોફાઈલ એસાઇન કરો",
@@ -450,7 +450,7 @@
                     colD: "D: Per Day Incentive",
                     colE: "E: 1% Indiscipline",
                     colF: "F: 1% Over Time",
-                    colF1: "F1: 8% Salary (B*100/8)",
+                    colF1: "F1: Salary 8% (B*100/8)",
                     colF2: "F2: Daily Task Inc (F1/30)",
                     colG: "G: Task Name (ટાસ્ક)",
                     colH: "H: Completed/Incomplete",
@@ -510,7 +510,7 @@
                     colD: "D: Per Day Incentive",
                     colE: "E: 1% Indiscipline",
                     colF: "F: 1% Over Time",
-                    colF1: "F1: 8% Salary (B*100/8)",
+                    colF1: "F1: Salary 8% (B*100/8)",
                     colF2: "F2: Daily Task Inc (F1/30)",
                     colG: "G: Task Name",
                     colH: "H: Completed/Incomplete",
@@ -570,7 +570,7 @@
                     colD: "D: Per Day Incentive",
                     colE: "E: 1% Indiscipline",
                     colF: "F: 1% Over Time",
-                    colF1: "F1: 8% Salary (B*100/8)",
+                    colF1: "F1: Salary 8% (B*100/8)",
                     colF2: "F2: Daily Task Inc (F1/30)",
                     colG: "G: Task Name (टास्क)",
                     colH: "H: Completed/Incomplete",
@@ -720,7 +720,6 @@
                 document.getElementById('welcomeMsg').innerText = translations[currentLang].welcome + currentUser.username;
                 document.getElementById('roleBadge').innerText = roleText;
 
-                // Set automatic today's date
                 const today = new Date().toISOString().split('T')[0];
                 const dateInput = document.getElementById('inputDate');
                 if(dateInput) dateInput.value = today;
@@ -893,11 +892,11 @@
                 row.colE = sal * 0.01;
                 row.colF = sal * 0.01;
 
-                // F1 column = B column number * 100 / 8 (or 8% calculation as per formula given: B * 100 / 8)
+                // F1 = B column number * 100 / 8
                 let f1Val = (sal * 100) / 8;
                 row.colF1 = f1Val.toFixed(2);
 
-                // F2 column (per day incentive for daily task) = F1 / 30
+                // F2 = F1 / 30
                 let f2Val = f1Val / 30;
                 row.colF2 = f2Val.toFixed(2);
 
@@ -933,7 +932,6 @@
                 let mVal = (row.colC - incompleteLoss - parseFloat(row.colN) - parseFloat(row.colO));
                 row.colM = mVal > 0 ? mVal.toFixed(2) : 0;
 
-                // Sync Profile from user record if empty
                 let matchedUser = users.find(u => u.username === emp);
                 if (matchedUser && matchedUser.profile && (!row.colProfile || row.colProfile === '')) {
                     row.colProfile = matchedUser.profile;
@@ -956,7 +954,6 @@
             if (!dt) return alert("Please select a date!");
             if (!u) return alert("Please select an employee!");
 
-            // Get profile from user record if not specified
             let uRec = users.find(x => x.username === u);
             let profileText = profCol || (uRec ? uRec.profile : 'Employee Profile');
 
@@ -1018,7 +1015,6 @@
             const isAdmin = (currentUser.role === 'admin' || currentUser.role === 'master_admin');
             const userRights = isAdmin ? colKeys : currentUser.rights;
 
-            // Render Headers + Action column for admin
             colKeys.forEach(colKey => {
                 if (userRights.includes(colKey)) {
                     headerTr.innerHTML += `<th>${translations[currentLang].cols[colKey] || colKey}</th>`;
@@ -1028,7 +1024,6 @@
                 headerTr.innerHTML += `<th>${translations[currentLang].action}</th>`;
             }
 
-            // Apply Filters (Employee sees only their rows; Admin sees all or filtered by employee)
             let filteredRows = isAdmin ? sheetData : sheetData.filter(row => row.colA === currentUser.username);
             
             if (isAdmin) {
@@ -1038,7 +1033,6 @@
                 }
             }
 
-            // Date Range Filter logic
             const fStartDate = document.getElementById('filterStartDate')?.value;
             const fEndDate = document.getElementById('filterEndDate')?.value;
             if (fStartDate) {
@@ -1058,7 +1052,6 @@
                         
                         let isEditable = true;
                         if (!isAdmin) {
-                            // Employee can only edit H (if not submitted) and Q (Note) and Profile column
                             if (colKey === 'colH') {
                                 if (row.isSubmitted) {
                                     isEditable = false; 
