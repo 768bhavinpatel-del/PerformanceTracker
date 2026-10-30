@@ -139,6 +139,7 @@
             margin-bottom: 25px;
             border-bottom: 2px solid #e1e1e1;
             padding-bottom: 10px;
+            flex-wrap: wrap;
         }
 
         .nav-tabs button {
@@ -237,7 +238,7 @@
                 <p id="loginError" style="color:red; margin-top:10px; display:none;" data-i18n="invalid_login">Invalid Username or Password</p>
             </div>
 
-            <!-- Employee Self Registration / Profile Form -->
+            <!-- Employee Self Registration Form -->
             <div id="registerFields" class="hidden">
                 <div class="form-group">
                     <label data-i18n="username">Username (Name)</label>
@@ -250,10 +251,6 @@
                 <div class="form-group">
                     <label data-i18n="mobile_or_email">Email ID / Mobile</label>
                     <input type="text" id="regContact" placeholder="Enter Email ID or Mobile">
-                </div>
-                <div class="form-group">
-                    <label data-i18n="profile_details">Profile Details / Bio</label>
-                    <input type="text" id="regProfile" placeholder="Enter your profile details">
                 </div>
                 <button style="width: 100%;" onclick="registerEmployee()" data-i18n="btn_register">Register</button>
                 <p style="margin-top: 15px; text-align: center;">
@@ -286,9 +283,14 @@
 
         <!-- Dashboard Section -->
         <div id="dashboardSection" class="hidden">
-            <div class="card" style="background: linear-gradient(135deg, #2c3e50, #34495e); color: white; margin-bottom: 20px;">
-                <h2 id="welcomeMsg" style="margin:0;">Welcome</h2>
-                <p id="roleBadge" style="margin:5px 0 0 0; opacity: 0.8; font-size: 14px;"></p>
+            <div class="card" style="background: linear-gradient(135deg, #2c3e50, #34495e); color: white; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2 id="welcomeMsg" style="margin:0;">Welcome</h2>
+                    <p id="roleBadge" style="margin:5px 0 0 0; opacity: 0.8; font-size: 14px;"></p>
+                </div>
+                <div>
+                    <button onclick="openProfileModal()" class="btn-success" style="background-color: #27ae60;" data-i18n="btn_my_profile">My Profile</button>
+                </div>
             </div>
 
             <!-- Navigation Tabs (Visible to Admins / Master Admin) -->
@@ -296,6 +298,7 @@
                 <button class="active" onclick="switchTab('userMgmt')" data-i18n="tab_users">User & Admin Management</button>
                 <button onclick="switchTab('taskMgmt')" data-i18n="tab_tasks">Master Task List (Col G)</button>
                 <button onclick="switchTab('dataSheet')" data-i18n="tab_data">Performance Data Sheet</button>
+                <button onclick="switchTab('profileFieldsMgmt')" data-i18n="tab_profile_fields">Profile Fields Setup</button>
             </div>
 
             <!-- TAB 1: User & Admin Rights Management -->
@@ -356,10 +359,6 @@
                             <label style="font-size: 12px;">Task (Col G):</label>
                             <select id="assignTaskSelect" style="width: 160px;"></select>
                         </div>
-                        <div>
-                            <label style="font-size: 12px;">Profile Column (Admin set):</label>
-                            <input type="text" id="inputProfileCol" placeholder="Profile info" style="width: 140px;">
-                        </div>
                         <div style="align-self: flex-end;">
                             <button onclick="assignDailyTask()" data-i18n="btn_assign">Add Daily Entry</button>
                         </div>
@@ -401,6 +400,31 @@
                 </div>
             </div>
 
+            <!-- TAB 4: Profile Fields Setup (Admin) -->
+            <div id="profileFieldsMgmtTab" class="tab-content hidden">
+                <div class="card">
+                    <h3 data-i18n="profile_setup_title" style="margin-top:0;">Configure Profile Fields (e.g. Address)</h3>
+                    <p style="font-size: 13px; color: #666;" data-i18n="profile_setup_desc">Add fields here that employees need to fill in their profile section.</p>
+                    <div style="display:flex; gap:10px; max-width: 500px; margin-bottom: 15px;">
+                        <input type="text" id="newProfileFieldName" placeholder="Field Name (e.g. Address, PAN, Phone)">
+                        <button onclick="addProfileField()" data-i18n="btn_add_field">Add Field</button>
+                    </div>
+                    <ul id="profileFieldsList" style="padding-left: 20px;"></ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center;">
+        <div class="card" style="width: 450px; max-width: 90%; max-height: 85vh; overflow-y: auto;">
+            <h3 data-i18n="my_profile_title" style="margin-top:0;">My Profile</h3>
+            <div id="profileFormContainer"></div>
+            <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+                <button onclick="closeProfileModal()" class="btn-danger" data-i18n="btn_close">Close</button>
+                <button onclick="saveProfileData()" data-i18n="btn_save">Save Profile</button>
+            </div>
         </div>
     </div>
 
@@ -417,7 +441,14 @@
                 welcome: "જી આયા નૂ, ",
                 register_link: "નવું રજીસ્ટ્રેશન કરો",
                 btn_register: "રજીસ્ટર કરો",
-                profile_details: "પ્રોફાઈલ માહિતી (Profile)",
+                btn_my_profile: "મારો પ્રોફાઈલ",
+                my_profile_title: "મારી પ્રોફાઈલ વિગતો",
+                btn_close: "બંધ કરો",
+                btn_save: "સેવ કરો",
+                tab_profile_fields: "પ્રોફાઈલ ફિલ્ડ સેટઅપ",
+                profile_setup_title: "પ્રોફાઈલ ફિલ્ડ્સ ઉમેરો (દા.ત. એડ્રેસ)",
+                profile_setup_desc: "અહીં જે ફિલ્ડ ઉમેરશો તે કર્મચારી પોતાની પ્રોફાઈલમાં ભરી શકશે.",
+                btn_add_field: "ફિલ્ડ ઉમેરો",
                 forgot_pass_link: "પાસવર્ડ ભૂલી ગયા છો?",
                 mobile_or_email: "ઈમેલ આઈડી અથવા મોબાઈલ નંબર",
                 btn_reset: "પાસવર્ડ રીસેટ કરો",
@@ -431,7 +462,7 @@
                 add_task: "માસ્ટર ટાસ્ક ઉમેરો (કોલમ G)",
                 btn_add_task: "ટાસ્ક એડ કરો",
                 performance_sheet: "પર્ફોર્મન્સ ડેટા એન્ટ્રી શીટ",
-                admin_action_title: "એડમિન પેનલ: તારીખ, સેલેરી, ટાસ્ક અને પ્રોફાઈલ એસાઇન કરો",
+                admin_action_title: "એડમિન પેનલ: તારીખ, સેલેરી અને ટાસ્ક એસાઇન કરો",
                 btn_assign: "રોજની એન્ટ્રી ઉમેરો",
                 btn_save_data: "ડેટા સેવ કરો",
                 filter_employee: "કર્મચારી મુજબ ફિલ્ટર:",
@@ -450,7 +481,7 @@
                     colD: "D: Per Day Incentive",
                     colE: "E: 1% Indiscipline",
                     colF: "F: 1% Over Time",
-                    colF1: "F1: Salary 8% (B*100/8)",
+                    colF1: "F1: Salary 8% (B*8/100)",
                     colF2: "F2: Daily Task Inc (F1/30)",
                     colG: "G: Task Name (ટાસ્ક)",
                     colH: "H: Completed/Incomplete",
@@ -461,7 +492,6 @@
                     colM: "M: Eligible to Receive",
                     colN: "N: Same Day No Sub (-)",
                     colO: "O: Next Day No Rep (-)",
-                    colProfile: "Profile: Employee Profile",
                     colQ: "Q: Note (નોંધ)",
                     colR: "R: Total Incomplete Tasks"
                 }
@@ -477,7 +507,14 @@
                 welcome: "Welcome, ",
                 register_link: "Register Profile",
                 btn_register: "Register",
-                profile_details: "Profile Details",
+                btn_my_profile: "My Profile",
+                my_profile_title: "My Profile Details",
+                btn_close: "Close",
+                btn_save: "Save",
+                tab_profile_fields: "Profile Fields Setup",
+                profile_setup_title: "Configure Profile Fields",
+                profile_setup_desc: "Add fields here that employees need to fill in their profile.",
+                btn_add_field: "Add Field",
                 forgot_pass_link: "Forgot Password?",
                 mobile_or_email: "Email ID or Mobile Number",
                 btn_reset: "Reset Password",
@@ -491,7 +528,7 @@
                 add_task: "Add Master Task (Col G)",
                 btn_add_task: "Add Task",
                 performance_sheet: "Performance Entry Sheet",
-                admin_action_title: "Admin Panel: Assign Daily Task, Salary & Profile",
+                admin_action_title: "Admin Panel: Assign Daily Task & Salary",
                 btn_assign: "Add Daily Entry",
                 btn_save_data: "Save Data",
                 filter_employee: "Filter by Employee:",
@@ -510,7 +547,7 @@
                     colD: "D: Per Day Incentive",
                     colE: "E: 1% Indiscipline",
                     colF: "F: 1% Over Time",
-                    colF1: "F1: Salary 8% (B*100/8)",
+                    colF1: "F1: Salary 8% (B*8/100)",
                     colF2: "F2: Daily Task Inc (F1/30)",
                     colG: "G: Task Name",
                     colH: "H: Completed/Incomplete",
@@ -521,7 +558,6 @@
                     colM: "M: Eligible to Receive",
                     colN: "N: Same Day No Sub (-)",
                     colO: "O: Next Day No Rep (-)",
-                    colProfile: "Profile: Employee Profile",
                     colQ: "Q: Note",
                     colR: "R: Total Incomplete Tasks"
                 }
@@ -537,7 +573,14 @@
                 welcome: "स्वागत है, ",
                 register_link: "रजिस्टर प्रोफाइल",
                 btn_register: "रजिस्टर करें",
-                profile_details: "प्रोफाइल विवरण",
+                btn_my_profile: "मेरी प्रोफाइल",
+                my_profile_title: "मेरी प्रोफाइल विवरण",
+                btn_close: "बंद करें",
+                btn_save: "सेव करें",
+                tab_profile_fields: "प्रोफाइल फील्ड सेटअप",
+                profile_setup_title: "प्रोफाइल फील्ड्स कॉन्फ़िगर करें",
+                profile_setup_desc: "यहाँ फ़ील्ड जोड़ें जिन्हें कर्मचारी अपनी प्रोफाइल में भर सकें।",
+                btn_add_field: "फ़ील्ड जोड़ें",
                 forgot_pass_link: "पासवर्ड भूल गए?",
                 mobile_or_email: "ईमेल आईडी या मोबाइल नंबर",
                 btn_reset: "पासवर्ड रीसेट करें",
@@ -551,7 +594,7 @@
                 add_task: "मास्टर टास्क जोड़ें (कॉलम G)",
                 btn_add_task: "टास्क जोड़ें",
                 performance_sheet: "परफॉरमेंस डेटा एंट्री शीट",
-                admin_action_title: "एडमिन पैनल: तारीख, सैलरी, टास्क और प्रोफाइल असाइन करें",
+                admin_action_title: "एडमिन पैनल: तारीख, सैलरी और टास्क असाइन करें",
                 btn_assign: "दैनिक एंट्री जोड़ें",
                 btn_save_data: "डेटा सेव करें",
                 filter_employee: "कर्मचारी फ़िल्टर:",
@@ -570,7 +613,7 @@
                     colD: "D: Per Day Incentive",
                     colE: "E: 1% Indiscipline",
                     colF: "F: 1% Over Time",
-                    colF1: "F1: Salary 8% (B*100/8)",
+                    colF1: "F1: Salary 8% (B*8/100)",
                     colF2: "F2: Daily Task Inc (F1/30)",
                     colG: "G: Task Name (टास्क)",
                     colH: "H: Completed/Incomplete",
@@ -581,28 +624,28 @@
                     colM: "M: Eligible to Receive",
                     colN: "N: Same Day No Sub (-)",
                     colO: "O: Next Day No Rep (-)",
-                    colProfile: "Profile: Employee Profile",
                     colQ: "Q: Note (नोट)",
                     colR: "R: Total Incomplete Tasks"
                 }
             }
         };
 
-        const colKeys = ['dateCol', 'colA', 'colB', 'colC', 'colD', 'colE', 'colF', 'colF1', 'colF2', 'colG', 'colH', 'colI', 'colJ', 'colK', 'colL', 'colM', 'colN', 'colO', 'colProfile', 'colQ', 'colR'];
+        const colKeys = ['dateCol', 'colA', 'colB', 'colC', 'colD', 'colE', 'colF', 'colF1', 'colF2', 'colG', 'colH', 'colI', 'colJ', 'colK', 'colL', 'colM', 'colN', 'colO', 'colQ', 'colR'];
 
         let currentLang = 'gu';
         let currentUser = null;
 
         let users = JSON.parse(localStorage.getItem('app_users')) || [
-            { username: 'master', password: '123', contact: 'master@admin.com', profile: 'Master Admin Profile', role: 'master_admin', rights: colKeys },
-            { username: 'admin', password: '123', contact: 'admin@admin.com', profile: 'Admin Profile', role: 'admin', rights: colKeys },
-            { username: 'Demo', password: '123', contact: '9876543210', profile: 'Demo Employee Profile', role: 'employee', rights: colKeys }
+            { username: 'master', password: '123', contact: 'master@admin.com', profileData: {}, role: 'master_admin', rights: colKeys },
+            { username: 'admin', password: '123', contact: 'admin@admin.com', profileData: {}, role: 'admin', rights: colKeys },
+            { username: 'Demo', password: '123', contact: '9876543210', profileData: { Address: 'Ahmedabad' }, role: 'employee', rights: colKeys }
         ];
 
         let masterTasks = JSON.parse(localStorage.getItem('app_tasks')) || ["Task 1", "Task 2", "Task 3"];
+        let profileFields = JSON.parse(localStorage.getItem('app_profile_fields')) || ["Address", "Phone", "PAN Number"];
         
         let sheetData = JSON.parse(localStorage.getItem('app_sheet_data')) || [
-            { dateCol: new Date().toISOString().split('T')[0], colA: 'Demo', colB: 15000, colC: 1500, colD: 50, colE: 150, colF: 150, colF1: 0, colF2: 0, colG: 'Task 1', colH: 'Incomplete', isSubmitted: false, colI: 0, colJ: 1, colK: 0, colL: 0, colM: 1500, colN: 0, colO: 0, colProfile: 'Demo Employee Profile', colQ: '', colR: 1 }
+            { dateCol: new Date().toISOString().split('T')[0], colA: 'Demo', colB: 15000, colC: 1500, colD: 50, colE: 150, colF: 150, colF1: 0, colF2: 0, colG: 'Task 1', colH: 'Incomplete', isSubmitted: false, colI: 0, colJ: 1, colK: 0, colL: 0, colM: 1500, colN: 0, colO: 0, colQ: '', colR: 1 }
         ];
 
         function changeLanguage(lang) {
@@ -644,7 +687,6 @@
             const u = document.getElementById('regUsername').value.trim();
             const p = document.getElementById('regPassword').value.trim();
             const c = document.getElementById('regContact').value.trim();
-            const prof = document.getElementById('regProfile').value.trim();
             const msg = document.getElementById('regMsg');
 
             if (!u || !p || !c) {
@@ -666,7 +708,7 @@
                 username: u,
                 password: p,
                 contact: c,
-                profile: prof || 'Employee Profile',
+                profileData: {},
                 role: 'employee',
                 rights: colKeys
             });
@@ -769,6 +811,10 @@
                 recalculateAllRows();
                 renderSheetTable();
                 if(event && event.target) event.target.classList.add('active');
+            } else if (tabName === 'profileFieldsMgmt') {
+                document.getElementById('profileFieldsMgmtTab').classList.remove('hidden');
+                renderProfileFieldsList();
+                if(event && event.target) event.target.classList.add('active');
             }
         }
 
@@ -805,7 +851,7 @@
             if (existingIdx >= 0) {
                 users[existingIdx] = { username: u, password: p, contact: c, role: r, rights: selectedRights };
             } else {
-                users.push({ username: u, password: p, contact: c, profile: 'Default Profile', role: r, rights: selectedRights });
+                users.push({ username: u, password: p, contact: c, profileData: {}, role: r, rights: selectedRights });
             }
 
             localStorage.setItem('app_users', JSON.stringify(users));
@@ -842,6 +888,73 @@
             renderMasterTaskList();
             populateTaskAssignOptions();
             recalculateAllRows();
+        }
+
+        function addProfileField() {
+            const fName = document.getElementById('newProfileFieldName').value.trim();
+            if(fName) {
+                if(!profileFields.includes(fName)) {
+                    profileFields.push(fName);
+                    localStorage.setItem('app_profile_fields', JSON.stringify(profileFields));
+                    document.getElementById('newProfileFieldName').value = '';
+                    renderProfileFieldsList();
+                } else {
+                    alert("Field already exists!");
+                }
+            }
+        }
+
+        function renderProfileFieldsList() {
+            const list = document.getElementById('profileFieldsList');
+            if(!list) return;
+            list.innerHTML = '';
+            profileFields.forEach((f, i) => {
+                list.innerHTML += `<li style="margin-bottom: 8px;"><b>${f}</b> <button class="btn-danger" style="padding:2px 8px; font-size: 11px; margin-left: 10px;" onclick="removeProfileField(${i})">Delete</button></li>`;
+            });
+        }
+
+        function removeProfileField(index) {
+            profileFields.splice(index, 1);
+            localStorage.setItem('app_profile_fields', JSON.stringify(profileFields));
+            renderProfileFieldsList();
+        }
+
+        function openProfileModal() {
+            const container = document.getElementById('profileFormContainer');
+            container.innerHTML = '';
+            if(!currentUser.profileData) currentUser.profileData = {};
+
+            if(profileFields.length === 0) {
+                container.innerHTML = `<p style="color:#666;">No profile fields configured by admin yet.</p>`;
+            } else {
+                profileFields.forEach(field => {
+                    let val = currentUser.profileData[field] || '';
+                    container.innerHTML += `
+                        <div class="form-group">
+                            <label>${field}</label>
+                            <input type="text" id="prof_field_${field}" value="${val}" placeholder="Enter ${field}">
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('profileModal').classList.remove('hidden');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.add('hidden');
+        }
+
+        function saveProfileData() {
+            profileFields.forEach(field => {
+                const input = document.getElementById(`prof_field_${field}`);
+                if(input) {
+                    if(!currentUser.profileData) currentUser.profileData = {};
+                    currentUser.profileData[field] = input.value.trim();
+                }
+            });
+            localStorage.setItem('app_users', JSON.stringify(users));
+            alert("Profile updated successfully!");
+            closeProfileModal();
         }
 
         function populateTaskAssignOptions() {
@@ -883,240 +996,4 @@
 
             sheetData.forEach(row => {
                 let emp = row.colA;
-                let jCount = empTaskCounts[emp] || 1;
-                row.colJ = jCount; 
-
-                let sal = parseFloat(row.colB) || 0;
-                row.colC = sal * 0.10;
-                row.colD = (row.colC / 30).toFixed(2);
-                row.colE = sal * 0.01;
-                row.colF = sal * 0.01;
-
-                // F1 = B column number * 100 / 8
-                let f1Val = (sal * 100) / 8;
-                row.colF1 = f1Val.toFixed(2);
-
-                // F2 = F1 / 30
-                let f2Val = f1Val / 30;
-                row.colF2 = f2Val.toFixed(2);
-
-                // K column = F2 column / J column (calculated automatically)
-                let kVal = 0;
-                if (jCount > 0) {
-                    kVal = f2Val / jCount;
-                }
-                row.colK = kVal.toFixed(2);
-
-                // I Column: If completed, give K column amount, if incomplete give 0
-                let incAmount = 0;
-                if (row.colH === 'Completed') {
-                    incAmount = parseFloat(kVal.toFixed(2));
-                } else {
-                    incAmount = 0;
-                }
-                row.colI = incAmount;
-                row.colL = incAmount; 
-
-                let nDeduct = 0;
-                let oDeduct = 0;
-                if (!row.colH || row.colH === '' || row.colH === 'Incomplete') {
-                    if(!row.isSubmitted) {
-                        nDeduct = (sal * 8) / 100 / 60;
-                        oDeduct = (sal * 8) / 100 / 60;
-                    }
-                }
-                row.colN = nDeduct ? nDeduct.toFixed(2) : 0;
-                row.colO = oDeduct ? oDeduct.toFixed(2) : 0;
-
-                let incompleteLoss = (row.colH !== 'Completed') ? (sal * 0.10 / jCount) : 0;
-                let mVal = (row.colC - incompleteLoss - parseFloat(row.colN) - parseFloat(row.colO));
-                row.colM = mVal > 0 ? mVal.toFixed(2) : 0;
-
-                let matchedUser = users.find(u => u.username === emp);
-                if (matchedUser && matchedUser.profile && (!row.colProfile || row.colProfile === '')) {
-                    row.colProfile = matchedUser.profile;
-                }
-
-                let totalIncomplete = sheetData.filter(r => r.colA === emp && r.colH !== 'Completed').length;
-                row.colR = totalIncomplete;
-            });
-
-            localStorage.setItem('app_sheet_data', JSON.stringify(sheetData));
-        }
-
-        function assignDailyTask() {
-            const dt = document.getElementById('inputDate').value;
-            const u = document.getElementById('assignUserSelect').value;
-            const sal = parseFloat(document.getElementById('inputSalary').value) || 0;
-            const t = document.getElementById('assignTaskSelect').value;
-            const profCol = document.getElementById('inputProfileCol').value.trim();
-
-            if (!dt) return alert("Please select a date!");
-            if (!u) return alert("Please select an employee!");
-
-            let uRec = users.find(x => x.username === u);
-            let profileText = profCol || (uRec ? uRec.profile : 'Employee Profile');
-
-            sheetData.push({
-                dateCol: dt,
-                colA: u, 
-                colB: sal, 
-                colC: sal * 0.10, 
-                colD: 0, 
-                colE: 0, 
-                colF: 0, 
-                colF1: 0,
-                colF2: 0,
-                colG: t, 
-                colH: 'Incomplete', 
-                isSubmitted: false,
-                colI: 0, 
-                colJ: 0, 
-                colK: 0, 
-                colL: 0, 
-                colM: 0, 
-                colN: 0, 
-                colO: 0,
-                colProfile: profileText,
-                colQ: '',
-                colR: 0
-            });
-
-            recalculateAllRows();
-            alert("Daily Task Assigned Successfully!");
-            renderSheetTable();
-        }
-
-        function deleteSheetRow(index) {
-            if (confirm("Are you sure you want to delete this task entry?")) {
-                sheetData.splice(index, 1);
-                recalculateAllRows();
-                renderSheetTable();
-            }
-        }
-
-        function clearFilters() {
-            const fEmp = document.getElementById('filterEmployee');
-            const fStart = document.getElementById('filterStartDate');
-            const fEnd = document.getElementById('filterEndDate');
-            if(fEmp) fEmp.value = '';
-            if(fStart) fStart.value = '';
-            if(fEnd) fEnd.value = '';
-            renderSheetTable();
-        }
-
-        function renderSheetTable() {
-            recalculateAllRows();
-            const headerTr = document.getElementById('tableHeader');
-            const bodyTb = document.getElementById('tableBody');
-            headerTr.innerHTML = '';
-            bodyTb.innerHTML = '';
-
-            const isAdmin = (currentUser.role === 'admin' || currentUser.role === 'master_admin');
-            const userRights = isAdmin ? colKeys : currentUser.rights;
-
-            colKeys.forEach(colKey => {
-                if (userRights.includes(colKey)) {
-                    headerTr.innerHTML += `<th>${translations[currentLang].cols[colKey] || colKey}</th>`;
-                }
-            });
-            if (isAdmin) {
-                headerTr.innerHTML += `<th>${translations[currentLang].action}</th>`;
-            }
-
-            let filteredRows = isAdmin ? sheetData : sheetData.filter(row => row.colA === currentUser.username);
-            
-            if (isAdmin) {
-                const fEmpVal = document.getElementById('filterEmployee')?.value;
-                if (fEmpVal) {
-                    filteredRows = filteredRows.filter(r => r.colA === fEmpVal);
-                }
-            }
-
-            const fStartDate = document.getElementById('filterStartDate')?.value;
-            const fEndDate = document.getElementById('filterEndDate')?.value;
-            if (fStartDate) {
-                filteredRows = filteredRows.filter(r => r.dateCol >= fStartDate);
-            }
-            if (fEndDate) {
-                filteredRows = filteredRows.filter(r => r.dateCol <= fEndDate);
-            }
-
-            filteredRows.forEach((row, filteredIndex) => {
-                let actualIndex = sheetData.indexOf(row);
-                let tr = document.createElement('tr');
-
-                colKeys.forEach(colKey => {
-                    if (userRights.includes(colKey)) {
-                        let td = document.createElement('td');
-                        
-                        let isEditable = true;
-                        if (!isAdmin) {
-                            if (colKey === 'colH') {
-                                if (row.isSubmitted) {
-                                    isEditable = false; 
-                                }
-                            } else if (colKey !== 'colQ' && colKey !== 'colProfile') {
-                                isEditable = false; 
-                            }
-                        }
-
-                        if (!isEditable) {
-                            if (colKey === 'colH') {
-                                td.innerHTML = `${row[colKey] || 'Incomplete'} <br>` + (row.isSubmitted ? `<span class="badge-submitted">Submitted</span>` : `<span class="badge-pending">Pending</span>`);
-                            } else {
-                                td.innerText = row[colKey] !== undefined ? row[colKey] : '';
-                            }
-                        } else {
-                            if (colKey === 'colH') {
-                                td.innerHTML = `
-                                    <select onchange="updateCellData(${actualIndex}, '${colKey}', this.value)" style="margin-bottom: 5px;">
-                                        <option value="Incomplete" ${row[colKey] === 'Incomplete' ? 'selected' : ''}>Incomplete</option>
-                                        <option value="Completed" ${row[colKey] === 'Completed' ? 'selected' : ''}>Completed</option>
-                                    </select>
-                                    <br>
-                                    <button class="btn-success" style="padding: 3px 8px; font-size: 11px;" onclick="submitTaskRow(${actualIndex})">Submit</button>
-                                `;
-                            } else {
-                                td.innerHTML = `<input type="text" value="${row[colKey] || ''}" onchange="updateCellData(${actualIndex}, '${colKey}', this.value)">`;
-                            }
-                        }
-                        tr.appendChild(td);
-                    }
-                });
-
-                if (isAdmin) {
-                    let actionTd = document.createElement('td');
-                    actionTd.innerHTML = `<button class="btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="deleteSheetRow(${actualIndex})">${translations[currentLang].delete_task}</button>`;
-                    tr.appendChild(actionTd);
-                }
-
-                bodyTb.appendChild(tr);
-            });
-        }
-
-        function submitTaskRow(index) {
-            if (confirm("Once submitted, you cannot change it yourself. Do you want to submit?")) {
-                sheetData[index].isSubmitted = true;
-                recalculateAllRows();
-                renderSheetTable();
-                alert("Task submitted successfully!");
-            }
-        }
-
-        function updateCellData(rowIndex, colKey, value) {
-            sheetData[rowIndex][colKey] = value;
-            recalculateAllRows();
-            renderSheetTable();
-        }
-
-        function saveSheetData() {
-            recalculateAllRows();
-            alert("Data saved successfully!");
-        }
-
-        populateTaskAssignOptions();
-        renderPermissionsCheckboxes();
-    </script>
-</body>
-</html>
+                let jCount = emp
