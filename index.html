@@ -295,13 +295,13 @@
                     colF: "F: 1% Over Time Incentive",
                     colG: "G: Task Name (ટાસ્ક)",
                     colH: "H: Completed/Incomplete",
-                    colI: "I: Incentive Amount according to status",
-                    colJ: "J: Total Point",
-                    colK: "K: Per Point Incentive",
+                    colI: "I: Incentive as per status",
+                    colJ: "J: Total Tasks Given",
+                    colK: "K: Per Task Incentive (8% / J)",
                     colL: "L: Total Incentive",
-                    colM: "M: Incentive Eligible to Receive",
-                    colN: "N: Same Day No Submission (-50% Per Day)",
-                    colO: "O: Next Day No Report (-50% Per Day)"
+                    colM: "M: Eligible to Receive",
+                    colN: "N: Same Day No Sub (-50%)",
+                    colO: "O: Next Day No Report (-50%)"
                 }
             },
             en: {
@@ -334,13 +334,13 @@
                     colF: "F: 1% Over Time Incentive",
                     colG: "G: Task Name",
                     colH: "H: Completed/Incomplete",
-                    colI: "I: Incentive Amount according to status",
-                    colJ: "J: Total Point",
-                    colK: "K: Per Point Incentive",
+                    colI: "I: Incentive as per status",
+                    colJ: "J: Total Tasks Given",
+                    colK: "K: Per Task Incentive (8% / J)",
                     colL: "L: Total Incentive",
-                    colM: "M: Incentive Eligible to Receive",
-                    colN: "N: Same Day No Submission (-50% Per Day)",
-                    colO: "O: Next Day No Report (-50% Per Day)"
+                    colM: "M: Eligible to Receive",
+                    colN: "N: Same Day No Sub (-50%)",
+                    colO: "O: Next Day No Report (-50%)"
                 }
             },
             hi: {
@@ -373,13 +373,13 @@
                     colF: "F: 1% Over Time Incentive",
                     colG: "G: Task Name (टास्क)",
                     colH: "H: Completed/Incomplete",
-                    colI: "I: Incentive Amount according to status",
-                    colJ: "J: Total Point",
-                    colK: "K: Per Point Incentive",
+                    colI: "I: Incentive as per status",
+                    colJ: "J: Total Tasks Given",
+                    colK: "K: Per Task Incentive (8% / J)",
                     colL: "L: Total Incentive",
-                    colM: "M: Incentive Eligible to Receive",
-                    colN: "N: Same Day No Submission (-50% Per Day)",
-                    colO: "O: Next Day No Report (-50% Per Day)"
+                    colM: "M: Eligible to Receive",
+                    colN: "N: Same Day No Sub (-50%)",
+                    colO: "O: Next Day No Report (-50%)"
                 }
             }
         };
@@ -391,13 +391,13 @@
 
         let users = JSON.parse(localStorage.getItem('app_users')) || [
             { username: 'admin', password: '123', role: 'admin', rights: colKeys },
-            { username: 'Demo', password: '123', role: 'employee', rights: ['dateCol', 'colA', 'colG', 'colH'] }
+            { username: 'Demo', password: '123', role: 'employee', rights: ['dateCol', 'colA', 'colG', 'colH', 'colI', 'colJ', 'colK', 'colL'] }
         ];
 
         let masterTasks = JSON.parse(localStorage.getItem('app_tasks')) || ["Task 1", "Task 2", "Task 3"];
         
         let sheetData = JSON.parse(localStorage.getItem('app_sheet_data')) || [
-            { dateCol: '2026-06-07', colA: 'Demo', colB: 15000, colC: 1500, colD: 50, colE: 150, colF: 150, colG: 'Task 1', colH: 'Incomplete', colI: 0, colJ: 0, colK: 0, colL: 0, colM: 0, colN: 0, colO: 0 }
+            { dateCol: '2026-06-07', colA: 'Demo', colB: 15000, colC: 1500, colD: 50, colE: 150, colF: 150, colG: 'Task 1', colH: 'Incomplete', colI: 0, colJ: 3, colK: 400, colL: 0, colM: 0, colN: 0, colO: 0 }
         ];
 
         function changeLanguage(lang) {
@@ -424,7 +424,6 @@
                 document.getElementById('logoutBtn').classList.remove('hidden');
                 document.getElementById('welcomeMsg').innerText = translations[currentLang].welcome + currentUser.username;
 
-                // Set today's date by default in admin input
                 const today = new Date().toISOString().split('T')[0];
                 const dateInput = document.getElementById('inputDate');
                 if(dateInput) dateInput.value = today;
@@ -439,6 +438,7 @@
                     switchTab('dataSheet');
                 }
                 populateTaskAssignOptions();
+                recalculateAllRows();
                 renderSheetTable();
             } else {
                 document.getElementById('loginError').style.display = 'block';
@@ -463,6 +463,7 @@
                 renderMasterTaskList();
             } else if (tabName === 'dataSheet') {
                 document.getElementById('dataSheetTab').classList.remove('hidden');
+                recalculateAllRows();
                 renderSheetTable();
             }
         }
@@ -514,6 +515,7 @@
                 document.getElementById('newTaskName').value = '';
                 renderMasterTaskList();
                 populateTaskAssignOptions();
+                recalculateAllRows();
             }
         }
 
@@ -530,6 +532,7 @@
             localStorage.setItem('app_tasks', JSON.stringify(masterTasks));
             renderMasterTaskList();
             populateTaskAssignOptions();
+            recalculateAllRows();
         }
 
         function populateTaskAssignOptions() {
@@ -548,6 +551,34 @@
             });
         }
 
+        // Recalculate Columns J, K, I, L automatically for all rows
+        function recalculateAllRows() {
+            let totalTasksCount = masterTasks.length;
+
+            sheetData.forEach(row => {
+                row.colJ = totalTasksCount; // J = Total tasks from admin panel
+                let sal = parseFloat(row.colB) || 0;
+                
+                // K = 8% of salary / J total tasks
+                if (totalTasksCount > 0) {
+                    row.colK = ((sal * 0.08) / totalTasksCount).toFixed(2);
+                } else {
+                    row.colK = 0;
+                }
+
+                // I = if completed give colK, if incomplete give 0
+                if (row.colH === 'Completed') {
+                    row.colI = row.colK;
+                } else {
+                    row.colI = 0;
+                }
+
+                // L = Total Incentive (Sum of column I for that user or row)
+                row.colL = row.colI; 
+            });
+            localStorage.setItem('app_sheet_data', JSON.stringify(sheetData));
+        }
+
         function assignDailyTask() {
             const dt = document.getElementById('inputDate').value;
             const u = document.getElementById('assignUserSelect').value;
@@ -556,32 +587,35 @@
 
             if (!dt) return alert("Please select a date!");
 
-            let c = sal * 0.10;
+            let totalTasksCount = masterTasks.length;
+            let kVal = totalTasksCount > 0 ? ((sal * 0.08) / totalTasksCount).toFixed(2) : 0;
+
             sheetData.push({
                 dateCol: dt,
                 colA: u, 
                 colB: sal, 
-                colC: c, 
-                colD: (c/30).toFixed(2), 
+                colC: sal * 0.10, 
+                colD: ((sal * 0.10) / 30).toFixed(2), 
                 colE: sal * 0.01, 
                 colF: sal * 0.01, 
                 colG: t, 
                 colH: 'Incomplete', 
                 colI: 0, 
-                colJ: 0, 
-                colK: 0, 
+                colJ: totalTasksCount, 
+                colK: kVal, 
                 colL: 0, 
                 colM: 0, 
                 colN: 0, 
                 colO: 0
             });
 
-            localStorage.setItem('app_sheet_data', JSON.stringify(sheetData));
+            recalculateAllRows();
             alert("Daily Task & Entry Added Successfully!");
             renderSheetTable();
         }
 
         function renderSheetTable() {
+            recalculateAllRows();
             const headerTr = document.getElementById('tableHeader');
             const bodyTb = document.getElementById('tableBody');
             headerTr.innerHTML = '';
@@ -605,14 +639,15 @@
                         
                         let isEditable = true;
                         if (currentUser.role === 'employee') {
-                            // Employees can only update column H (Completed/Incomplete) for their rows
+                            // Employees can only update column H (Completed/Incomplete)
                             if (colKey !== 'colH') {
                                 isEditable = false; 
                             }
                         }
 
                         if (!isEditable) {
-                            td.innerText = row[colKey] || '';
+                            // Display calculated/read-only fields clearly
+                            td.innerText = row[colKey] !== undefined ? row[colKey] : '';
                         } else {
                             if (colKey === 'colH') {
                                 // Dropdown for Completed / Incomplete
@@ -646,11 +681,12 @@
                 r.colF = x * 0.01;
             }
 
-            localStorage.setItem('app_sheet_data', JSON.stringify(sheetData));
+            recalculateAllRows();
+            renderSheetTable();
         }
 
         function saveSheetData() {
-            localStorage.setItem('app_sheet_data', JSON.stringify(sheetData));
+            recalculateAllRows();
             alert("Data saved successfully!");
         }
 
