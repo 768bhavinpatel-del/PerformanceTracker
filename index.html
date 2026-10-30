@@ -996,4 +996,230 @@
 
             sheetData.forEach(row => {
                 let emp = row.colA;
-                let jCount = emp
+                let jCount = empTaskCounts[emp] || 1;
+                row.colJ = jCount; 
+
+                let sal = parseFloat(row.colB) || 0;
+                row.colC = sal * 0.10;
+                row.colD = (row.colC / 30).toFixed(2);
+                row.colE = sal * 0.01;
+                row.colF = sal * 0.01;
+
+                // F1 = B column number * 8 / 100
+                let f1Val = (sal * 8) / 100;
+                row.colF1 = f1Val.toFixed(2);
+
+                // F2 = F1 / 30
+                let f2Val = f1Val / 30;
+                row.colF2 = f2Val.toFixed(2);
+
+                // K column = F2 column / J column
+                let kVal = 0;
+                if (jCount > 0) {
+                    kVal = f2Val / jCount;
+                }
+                row.colK = kVal.toFixed(2);
+
+                // I Column: If completed, give K column amount, if incomplete give 0
+                let incAmount = 0;
+                if (row.colH === 'Completed') {
+                    incAmount = parseFloat(kVal.toFixed(2));
+                } else {
+                    incAmount = 0;
+                }
+                row.colI = incAmount;
+                row.colL = incAmount; 
+
+                let nDeduct = 0;
+                let oDeduct = 0;
+                if (!row.colH || row.colH === '' || row.colH === 'Incomplete') {
+                    if(!row.isSubmitted) {
+                        nDeduct = (sal * 8) / 100 / 60;
+                        oDeduct = (sal * 8) / 100 / 60;
+                    }
+                }
+                row.colN = nDeduct ? nDeduct.toFixed(2) : 0;
+                row.colO = oDeduct ? oDeduct.toFixed(2) : 0;
+
+                let incompleteLoss = (row.colH !== 'Completed') ? (sal * 0.10 / jCount) : 0;
+                let mVal = (row.colC - incompleteLoss - parseFloat(row.colN) - parseFloat(row.colO));
+                row.colM = mVal > 0 ? mVal.toFixed(2) : 0;
+
+                let totalIncomplete = sheetData.filter(r => r.colA === emp && r.colH !== 'Completed').length;
+                row.colR = totalIncomplete;
+            });
+
+            localStorage.setItem('app_sheet_data', JSON.stringify(sheetData));
+        }
+
+        function assignDailyTask() {
+            const dt = document.getElementById('inputDate').value;
+            const u = document.getElementById('assignUserSelect').value;
+            const sal = parseFloat(document.getElementById('inputSalary').value) || 0;
+            const t = document.getElementById('assignTaskSelect').value;
+
+            if (!dt) return alert("Please select a date!");
+            if (!u) return alert("Please select an employee!");
+
+            sheetData.push({
+                dateCol: dt,
+                colA: u, 
+                colB: sal, 
+                colC: sal * 0.10, 
+                colD: 0, 
+                colE: 0, 
+                colF: 0, 
+                colF1: 0,
+                colF2: 0,
+                colG: t, 
+                colH: 'Incomplete', 
+                isSubmitted: false,
+                colI: 0, 
+                colJ: 0, 
+                colK: 0, 
+                colL: 0, 
+                colM: 0, 
+                colN: 0, 
+                colO: 0,
+                colQ: '',
+                colR: 0
+            });
+
+            recalculateAllRows();
+            alert("Daily Task Assigned Successfully!");
+            renderSheetTable();
+        }
+
+        function deleteSheetRow(index) {
+            if (confirm("Are you sure you want to delete this task entry?")) {
+                sheetData.splice(index, 1);
+                recalculateAllRows();
+                renderSheetTable();
+            }
+        }
+
+        function clearFilters() {
+            const fEmp = document.getElementById('filterEmployee');
+            const fStart = document.getElementById('filterStartDate');
+            const fEnd = document.getElementById('filterEndDate');
+            if(fEmp) fEmp.value = '';
+            if(fStart) fStart.value = '';
+            if(fEnd) fEnd.value = '';
+            renderSheetTable();
+        }
+
+        function renderSheetTable() {
+            recalculateAllRows();
+            const headerTr = document.getElementById('tableHeader');
+            const bodyTb = document.getElementById('tableBody');
+            headerTr.innerHTML = '';
+            bodyTb.innerHTML = '';
+
+            const isAdmin = (currentUser.role === 'admin' || currentUser.role === 'master_admin');
+            const userRights = isAdmin ? colKeys : currentUser.rights;
+
+            colKeys.forEach(colKey => {
+                if (userRights.includes(colKey)) {
+                    headerTr.innerHTML += `<th>${translations[currentLang].cols[colKey] || colKey}</th>`;
+                }
+            });
+            if (isAdmin) {
+                headerTr.innerHTML += `<th>${translations[currentLang].action}</th>`;
+            }
+
+            let filteredRows = isAdmin ? sheetData : sheetData.filter(row => row.colA === currentUser.username);
+            
+            if (isAdmin) {
+                const fEmpVal = document.getElementById('filterEmployee')?.value;
+                if (fEmpVal) {
+                    filteredRows = filteredRows.filter(r => r.colA === fEmpVal);
+                }
+            }
+
+            const fStartDate = document.getElementById('filterStartDate')?.value;
+            const fEndDate = document.getElementById('filterEndDate')?.value;
+            if (fStartDate) {
+                filteredRows = filteredRows.filter(r => r.dateCol >= fStartDate);
+            }
+            if (fEndDate) {
+                filteredRows = filteredRows.filter(r => r.dateCol <= fEndDate);
+            }
+
+            filteredRows.forEach((row, filteredIndex) => {
+                let actualIndex = sheetData.indexOf(row);
+                let tr = document.createElement('tr');
+
+                colKeys.forEach(colKey => {
+                    if (userRights.includes(colKey)) {
+                        let td = document.createElement('td');
+                        
+                        let isEditable = true;
+                        if (!isAdmin) {
+                            if (colKey === 'colH') {
+                                if (row.isSubmitted) {
+                                    isEditable = false; 
+                                }
+                            } else if (colKey !== 'colQ') {
+                                isEditable = false; 
+                            }
+                        }
+
+                        if (!isEditable) {
+                            if (colKey === 'colH') {
+                                td.innerHTML = `${row[colKey] || 'Incomplete'} <br>` + (row.isSubmitted ? `<span class="badge-submitted">Submitted</span>` : `<span class="badge-pending">Pending</span>`);
+                            } else {
+                                td.innerText = row[colKey] !== undefined ? row[colKey] : '';
+                            }
+                        } else {
+                            if (colKey === 'colH') {
+                                td.innerHTML = `
+                                    <select onchange="updateCellData(${actualIndex}, '${colKey}', this.value)" style="margin-bottom: 5px;">
+                                        <option value="Incomplete" ${row[colKey] === 'Incomplete' ? 'selected' : ''}>Incomplete</option>
+                                        <option value="Completed" ${row[colKey] === 'Completed' ? 'selected' : ''}>Completed</option>
+                                    </select>
+                                    <br>
+                                    <button class="btn-success" style="padding: 3px 8px; font-size: 11px;" onclick="submitTaskRow(${actualIndex})">Submit</button>
+                                `;
+                            } else {
+                                td.innerHTML = `<input type="text" value="${row[colKey] || ''}" onchange="updateCellData(${actualIndex}, '${colKey}', this.value)">`;
+                            }
+                        }
+                        tr.appendChild(td);
+                    }
+                });
+
+                if (isAdmin) {
+                    let actionTd = document.createElement('td');
+                    actionTd.innerHTML = `<button class="btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="deleteSheetRow(${actualIndex})">${translations[currentLang].delete_task}</button>`;
+                    tr.appendChild(actionTd);
+                }
+
+                bodyTb.appendChild(tr);
+            });
+        }
+
+        function submitTaskRow(index) {
+            if (confirm("Once submitted, you cannot change it yourself. Do you want to submit?")) {
+                sheetData[index].isSubmitted = true;
+                recalculateAllRows();
+                renderSheetTable();
+                alert("Task submitted successfully!");
+            }
+        }
+
+        function updateCellData(rowIndex, colKey, value) {
+            sheetData[rowIndex][colKey] = value;
+            recalculateAllRows();
+            renderSheetTable();
+        }
+
+        function saveSheetData() {
+            recalculateAllRows();
+            alert("Data saved successfully!");
+        }
+
+        populateTaskAssignOptions();
+        renderPermissionsCheckboxes();
+    </script>
+</body>
+</html>
