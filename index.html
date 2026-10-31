@@ -1038,7 +1038,7 @@
                 if(canDelete) {
                     actionBtns += `<button class="btn-danger" style="padding:2px 8px; font-size: 11px; margin-left: 6px;" onclick="removeTask(${i})">${delTxt}</button>`;
                 }
-                list.innerHTML += `<li style="margin-bottom: 8px; display: flex; align-items: center;"><span>${t}</span>${actionBtns}</li>`;
+                list.innerHTML += `<li style="margin-bottom: 8px; display: flex; align-items: center;"><span>${t}</span> ${actionBtns}</li>`;
             });
         }
 
@@ -1317,7 +1317,7 @@
             recalculateAllRows();
 
             if (duplicateTasks.length > 0) {
-                alert(`Notice: The following task(s) were already assigned to ${u} on${dt} and were skipped:\n- ` + duplicateTasks.join('\n- '));
+                alert(`Notice: The following task(s) were already assigned to ${u} on ${dt} and were skipped:\n- ` + duplicateTasks.join('\n- '));
             }
 
             if (addedCount > 0) {
@@ -1370,7 +1370,51 @@
                 let actionText = "Action";
                 if(currentLang === 'gu') actionText = "Action (ક્રિયા)";
                 if(currentLang === 'hi') actionText = "Action";
-                headerTr.innerHTML += `<th>${actionText}</th>`; }  let filteredRows = isAdmin ? sheetData : sheetData.filter(row => row.colA === currentUser.username);  if (isAdmin) { const fEmpVal = document.getElementById('filterEmployee')?.value; if (fEmpVal) { filteredRows = filteredRows.filter(r => r.colA === fEmpVal); } }  const fStartDate = document.getElementById('filterStartDate')?.value; const fEndDate = document.getElementById('filterEndDate')?.value; if (fStartDate) { filteredRows = filteredRows.filter(r => r.dateCol >= fStartDate); } if (fEndDate) { filteredRows = filteredRows.filter(r => r.dateCol <= fEndDate); }  filteredRows.forEach((row, filteredIndex) => { let actualIndex = sheetData.indexOf(row); let tr = document.createElement('tr');  colKeys.forEach(colKey => { if (userRights.includes(colKey)) { let td = document.createElement('td');  let isEditable = true; if (currentUser.accessMode === 'read') { isEditable = false; } else if (!isAdmin) { if (colKey === 'colH') { if (row.isSubmitted) { isEditable = false; } } else if (colKey !== 'colQ') { isEditable = false; } }  if (!isEditable) { if (colKey === 'colH') { td.innerHTML = `${row[colKey] || 'Incomplete'} <br>` + (row.isSubmitted ? `<span class="badge-submitted">Submitted</span>` : `<span class="badge-pending">Pending</span>`);
+                headerTr.innerHTML += `<th>${actionText}</th>`;
+            }
+
+            let filteredRows = isAdmin ? sheetData : sheetData.filter(row => row.colA === currentUser.username);
+            
+            if (isAdmin) {
+                const fEmpVal = document.getElementById('filterEmployee')?.value;
+                if (fEmpVal) {
+                    filteredRows = filteredRows.filter(r => r.colA === fEmpVal);
+                }
+            }
+
+            const fStartDate = document.getElementById('filterStartDate')?.value;
+            const fEndDate = document.getElementById('filterEndDate')?.value;
+            if (fStartDate) {
+                filteredRows = filteredRows.filter(r => r.dateCol >= fStartDate);
+            }
+            if (fEndDate) {
+                filteredRows = filteredRows.filter(r => r.dateCol <= fEndDate);
+            }
+
+            filteredRows.forEach((row, filteredIndex) => {
+                let actualIndex = sheetData.indexOf(row);
+                let tr = document.createElement('tr');
+
+                colKeys.forEach(colKey => {
+                    if (userRights.includes(colKey)) {
+                        let td = document.createElement('td');
+                        
+                        let isEditable = true;
+                        if (currentUser.accessMode === 'read') {
+                            isEditable = false;
+                        } else if (!isAdmin) {
+                            if (colKey === 'colH') {
+                                if (row.isSubmitted) {
+                                    isEditable = false; 
+                                }
+                            } else if (colKey !== 'colQ') {
+                                isEditable = false; 
+                            }
+                        }
+
+                        if (!isEditable) {
+                            if (colKey === 'colH') {
+                                td.innerHTML = `${row[colKey] || 'Incomplete'} <br>` + (row.isSubmitted ? `<span class="badge-submitted">Submitted</span>` : `<span class="badge-pending">Pending</span>`);
                             } else {
                                 td.innerText = row[colKey] !== undefined ? row[colKey] : '';
                             }
@@ -1385,4 +1429,59 @@
                                     <button class="btn-success" style="padding: 3px 8px; font-size: 11px;" onclick="submitTaskRow(${actualIndex})">Submit</button>
                                 `;
                             } else {
-                                td.innerHTML = `<input type="text" value
+                                td.innerHTML = `<input type="text" value="${row[colKey] || ''}" onchange="updateCellData(${actualIndex}, '${colKey}', this.value)">`;
+                            }
+                        }
+                        tr.appendChild(td);
+                    }
+                });
+
+                if (isAdmin && currentUser.accessMode !== 'read') {
+                    let actionTd = document.createElement('td');
+                    let delText = translations[currentLang].delete_task || "Delete";
+                    if(currentUser.accessMode === 'delete' || currentUser.role === 'master_admin') {
+                        actionTd.innerHTML = `<button class="btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="deleteSheetRow(${actualIndex})">${delText}</button>`;
+                    } else {
+                        actionTd.innerHTML = `-`;
+                    }
+                    tr.appendChild(actionTd);
+                }
+
+                bodyTb.appendChild(tr);
+            });
+        }
+
+        function submitTaskRow(index) {
+            if (currentUser.accessMode === 'read') {
+                return alert("You have Read Only access.");
+            }
+            if (confirm("Once submitted, you cannot change it yourself. Do you want to submit?")) {
+                sheetData[index].isSubmitted = true;
+                recalculateAllRows();
+                renderSheetTable();
+                alert("Task submitted successfully!");
+            }
+        }
+
+        function updateCellData(rowIndex, colKey, value) {
+            if (currentUser.accessMode === 'read') {
+                return alert("You have Read Only access.");
+            }
+            sheetData[rowIndex][colKey] = value;
+            recalculateAllRows();
+            renderSheetTable();
+        }
+
+        function saveSheetData() {
+            if (currentUser.accessMode === 'read') {
+                return alert("You have Read Only access.");
+            }
+            recalculateAllRows();
+            alert("Data saved successfully!");
+        }
+
+        populateTaskAssignOptions();
+        renderPermissionsCheckboxes();
+    </script>
+</body>
+</html>
