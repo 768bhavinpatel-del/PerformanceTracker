@@ -217,7 +217,7 @@
 
     <!-- Header Section -->
     <div class="header">
-        <h2 id="app-title" style="margin:0;">Performance Sheet Portal</h2>
+        <h2 id="app-title">Performance Sheet Portal <span class="trans-label" data-key="app_title"></span></h2>
         <div style="display: flex; gap: 20px; align-items: center;">
             <div class="lang-switch">
                 <label for="languageSelect" style="color:white; margin-right:5px;">🌐</label>
@@ -227,7 +227,7 @@
                     <option value="hi">हिंदी</option>
                 </select>
             </div>
-            <button id="logoutBtn" class="hidden btn-danger" onclick="logout()" data-i18n="logout">Logout</button>
+            <button id="logoutBtn" class="hidden btn-danger" onclick="logout()">Logout <span class="trans-label" data-key="logout"></span></button>
         </div>
     </div>
 
@@ -235,43 +235,43 @@
         
         <!-- Login Form / Register / Forgot Password Section -->
         <div id="loginSection" class="card login-card">
-            <h3 id="loginFormTitle" data-i18n="login" style="margin-top:0;">Login</h3>
+            <h3 id="loginFormTitle" style="margin-top:0;">Login <span class="trans-label" data-key="login"></span></h3>
             
             <div id="loginFields">
                 <div class="form-group">
-                    <label data-i18n="username">Username</label>
+                    <label>Username <span class="trans-label" data-key="username"></span></label>
                     <input type="text" id="loginUsername" placeholder="Enter Username">
                 </div>
                 <div class="form-group">
-                    <label data-i18n="password">Password</label>
+                    <label>Password <span class="trans-label" data-key="password"></span></label>
                     <input type="password" id="loginPassword" placeholder="Enter Password">
                 </div>
-                <button style="width: 100%;" onclick="login()" data-i18n="login">Login</button>
+                <button style="width: 100%;" onclick="login()">Login <span class="trans-label" data-key="login"></span></button>
                 
                 <div style="display: flex; justify-content: space-between; margin-top: 15px;">
-                    <button class="link-btn" onclick="showRegisterForm()" data-i18n="register_link">Register Profile</button>
-                    <button class="link-btn" onclick="showForgotForm()" data-i18n="forgot_pass_link">Forgot Password?</button>
+                    <button class="link-btn" onclick="showRegisterForm()">Register Profile <span class="trans-label" data-key="register_link"></span></button>
+                    <button class="link-btn" onclick="showForgotForm()">Forgot Password? <span class="trans-label" data-key="forgot_pass_link"></span></button>
                 </div>
-                <p id="loginError" style="color:red; margin-top:10px; display:none;" data-i18n="invalid_login">Invalid Username or Password</p>
+                <p id="loginError" style="color:red; margin-top:10px; display:none;">Invalid Username or Password <span class="trans-label" data-key="invalid_login"></span></p>
             </div>
 
             <!-- Employee Self Registration Form -->
             <div id="registerFields" class="hidden">
                 <div class="form-group">
-                    <label data-i18n="username">Username (Name)</label>
+                    <label>Username (Name) <span class="trans-label" data-key="username"></span></label>
                     <input type="text" id="regUsername" placeholder="Enter your name">
                 </div>
                 <div class="form-group">
-                    <label data-i18n="password">Password</label>
+                    <label>Password <span class="trans-label" data-key="password"></span></label>
                     <input type="password" id="regPassword" placeholder="Create password">
                 </div>
                 <div class="form-group">
-                    <label data-i18n="mobile_or_email">Email ID / Mobile</label>
+                    <label>Email ID / Mobile <span class="trans-label" data-key="mobile_or_email"></span></label>
                     <input type="text" id="regContact" placeholder="Enter Email ID or Mobile">
                 </div>
-                <button style="width: 100%;" onclick="registerEmployee()" data-i18n="btn_register">Register</button>
+                <button style="width: 100%;" onclick="registerEmployee()">Register <span class="trans-label" data-key="btn_register"></span></button>
                 <p style="margin-top: 15px; text-align: center;">
-                    <button class="link-btn" onclick="showLoginForm()" data-i18n="back_to_login">Back to Login</button>
+                    <button class="link-btn" onclick="showLoginForm()">Back to Login <span class="trans-label" data-key="back_to_login"></span></button>
                 </p>
                 <p id="regMsg" style="margin-top:10px; display:none;"></p>
             </div>
@@ -279,20 +279,20 @@
             <!-- Forgot Password Form -->
             <div id="forgotFields" class="hidden">
                 <div class="form-group">
-                    <label data-i18n="username">Username</label>
+                    <label>Username <span class="trans-label" data-key="username"></span></label>
                     <input type="text" id="forgotUsername" placeholder="Enter your Username">
                 </div>
                 <div class="form-group">
-                    <label data-i18n="mobile_or_email">Registered Mobile / Email</label>
+                    <label>Registered Mobile / Email <span class="trans-label" data-key="mobile_or_email"></span></label>
                     <input type="text" id="forgotContact" placeholder="Enter Mobile or Email">
                 </div>
                 <div class="form-group">
-                    <label data-i18n="new_password">New Password</label>
+                    <label>New Password <span class="trans-label" data-key="new_password"></span></label>
                     <input type="password" id="newResetPassword" placeholder="Enter new password">
                 </div>
-                <button style="width: 100%;" onclick="executePasswordReset()" data-i18n="btn_reset">Reset Password</button>
+                <button style="width: 100%;" onclick="executePasswordReset()">Reset Password <span class="trans-label" data-key="btn_reset"></span></button>
                 <p style="margin-top: 15px; text-align: center;">
-                    <button class="link-btn" onclick="showLoginForm()" data-i18n="back_to_login">Back to Login</button>
+                    <button class="link-btn" onclick="showLoginForm()">Back to Login <span class="trans-label" data-key="back_to_login"></span></button>
                 </p>
                 <p id="forgotMsg" style="margin-top:10px; display:none;"></p>
             </div>
@@ -306,22 +306,22 @@
                     <p id="roleBadge" style="margin:5px 0 0 0; opacity: 0.8; font-size: 14px;"></p>
                 </div>
                 <div>
-                    <button onclick="openProfileModal()" class="btn-success" style="background-color: #27ae60;" data-i18n="btn_my_profile">My Profile</button>
+                    <button onclick="openProfileModal()" class="btn-success" style="background-color: #27ae60;">My Profile <span class="trans-label" data-key="btn_my_profile"></span></button>
                 </div>
             </div>
 
             <!-- Navigation Tabs -->
             <div id="adminNav" class="nav-tabs hidden">
-                <button id="tabUserMgmtBtn" class="active" onclick="switchTab('userMgmt')" data-i18n="tab_users">User & Rights Management</button>
-                <button id="tabTaskMgmtBtn" onclick="switchTab('taskMgmt')" data-i18n="tab_tasks">Master Task List (Col G)</button>
-                <button onclick="switchTab('dataSheet')" data-i18n="tab_data">Performance Data Sheet</button>
-                <button id="tabProfileFieldsBtn" onclick="switchTab('profileFieldsMgmt')" data-i18n="tab_profile_fields">Profile Fields Setup</button>
+                <button id="tabUserMgmtBtn" class="active" onclick="switchTab('userMgmt')">User & Rights Management <span class="trans-label" data-key="tab_users"></span></button>
+                <button id="tabTaskMgmtBtn" onclick="switchTab('taskMgmt')">Master Task List (Col G) <span class="trans-label" data-key="tab_tasks"></span></button>
+                <button onclick="switchTab('dataSheet')">Performance Data Sheet <span class="trans-label" data-key="tab_data"></span></button>
+                <button id="tabProfileFieldsBtn" onclick="switchTab('profileFieldsMgmt')">Profile Fields Setup <span class="trans-label" data-key="tab_profile_fields"></span></button>
             </div>
 
             <!-- TAB 1: User & Rights Management -->
             <div id="userMgmtTab" class="tab-content hidden">
                 <div id="userMgmtCard" class="card">
-                    <h3 data-i18n="add_user" style="margin-top:0;">Add User / Admin & Assign Rights & Access Level</h3>
+                    <h3 style="margin-top:0;">Add User / Admin & Assign Rights & Access Level <span class="trans-label" data-key="add_user"></span></h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
                         <input type="text" id="newUsername" placeholder="Username">
                         <input type="password" id="newPassword" placeholder="Password">
@@ -344,24 +344,24 @@
                         </select>
                     </div>
 
-                    <h4 style="margin-top: 20px;" data-i18n="select_visible_cols">Select Visible Columns:</h4>
+                    <h4 style="margin-top: 20px;">Select Visible Columns: <span class="trans-label" data-key="select_visible_cols"></span></h4>
                     <div class="permissions-grid" id="colPermissions"></div>
 
-                    <button id="saveUserRightsBtn" style="margin-top: 20px;" onclick="createUser()" data-i18n="btn_create_user">Save User & Rights</button>
+                    <button id="saveUserRightsBtn" style="margin-top: 20px;" onclick="createUser()">Save User & Rights <span class="trans-label" data-key="btn_create_user"></span></button>
                 </div>
 
                 <!-- Master Admin Permission Setting for Admins to View Credentials -->
                 <div id="masterAdminPermissionCard" class="card hidden" style="background: #e8f4fd; border-left: 4px solid #3498db;">
-                    <h3 style="margin-top:0; color: #2980b9;" data-i18n="admin_view_setting">Admin View Permission Setting</h3>
+                    <h3 style="margin-top:0; color: #2980b9;">Admin View Permission Setting <span class="trans-label" data-key="admin_view_setting"></span></h3>
                     <label style="display: flex; align-items: center; gap: 10px; font-weight: bold; cursor: pointer;">
                         <input type="checkbox" id="allowAdminViewCreds" onchange="toggleAdminViewPermission(this.checked)" style="width: 18px; height: 18px;">
-                        <span data-i18n="allow_admin_view_label">Allow regular Admins to view the full Users Credentials List</span>
+                        <span>Allow regular Admins to view the full Users Credentials List <span class="trans-label" data-key="allow_admin_view_label"></span></span>
                     </label>
                 </div>
 
                 <!-- Credentials List View -->
                 <div id="masterAdminCredsCard" class="card hidden" style="background: #fff8e1; border-left: 4px solid #f39c12;">
-                    <h3 style="margin-top:0; color: #d35400;" data-i18n="master_creds_title">Complete Users List (Username, Password, Mobile, Role, Rights)</h3>
+                    <h3 style="margin-top:0; color: #d35400;">Complete Users List (Username, Password, Mobile, Role, Rights) <span class="trans-label" data-key="master_creds_title"></span></h3>
                     <div style="overflow-x: auto;">
                         <table style="background: white;">
                             <thead>
@@ -384,11 +384,11 @@
             <!-- TAB 2: Task List Management (Col G Master with Edit) -->
             <div id="taskMgmtTab" class="tab-content hidden">
                 <div class="card">
-                    <h3 data-i18n="add_task" style="margin-top:0;">Add / Edit Master Task (Col G)</h3>
+                    <h3 style="margin-top:0;">Add / Edit Master Task (Col G) <span class="trans-label" data-key="add_task"></span></h3>
                     <div id="taskAddBox" style="display:flex; gap:10px; max-width: 600px; margin-bottom: 15px; align-items: center;">
                         <input type="hidden" id="editTaskIndex" value="-1">
                         <input type="text" id="newTaskName" placeholder="Task Name" style="flex: 1;">
-                        <button id="addTaskBtn" onclick="saveMasterTask()" data-i18n="btn_add_task">Add Task</button>
+                        <button id="addTaskBtn" onclick="saveMasterTask()">Add Task <span class="trans-label" data-key="btn_add_task"></span></button>
                         <button id="cancelTaskEditBtn" class="hidden btn-danger" onclick="cancelTaskEdit()">Cancel</button>
                     </div>
                     <ul id="masterTaskList" style="padding-left: 20px;"></ul>
@@ -397,11 +397,11 @@
 
             <!-- TAB 3: Data Sheet (Admin & Employee Dashboards) -->
             <div id="dataSheetTab" class="tab-content card">
-                <h3 data-i18n="performance_sheet" style="margin-top:0;">Performance Entry Sheet</h3>
+                <h3 style="margin-top:0;">Performance Entry Sheet <span class="trans-label" data-key="performance_sheet"></span></h3>
                 
                 <!-- Admin Task & Salary Assignment Box with Checkboxes -->
                 <div id="adminActionBox" class="card hidden" style="background: #eef6fc; border-left: 4px solid var(--secondary-color);">
-                    <h4 data-i18n="admin_action_title" style="margin-top:0;">Admin Panel: Assign Daily Tasks & Salary</h4>
+                    <h4 style="margin-top:0;">Admin Panel: Assign Daily Tasks & Salary <span class="trans-label" data-key="admin_action_title"></span></h4>
                     <div style="display:flex; gap:12px; flex-wrap: wrap; align-items: flex-start;">
                         <div>
                             <label style="font-size: 12px;">Date:</label>
@@ -409,18 +409,18 @@
                         </div>
                         <div>
                             <label style="font-size: 12px;">Employee:</label>
-                            <select id="assignUserSelect" style="width: 150px; padding: 8px;"></select>
+                            <select id="assignUserSelect" onchange="onAssignEmployeeChange()" style="width: 150px; padding: 8px;"></select>
                         </div>
                         <div>
                             <label style="font-size: 12px;">Salary (Col B):</label>
                             <input type="number" id="inputSalary" placeholder="Salary" style="width: 120px; padding: 8px;">
                         </div>
                         <div style="flex: 1; min-width: 250px;">
-                            <label style="font-size: 12px; font-weight: bold;" data-i18n="select_tasks_label">Select Tasks (Col G) - Multiple can be checked:</label>
+                            <label style="font-size: 12px; font-weight: bold;">Select Tasks (Col G) - Multiple can be checked: <span class="trans-label" data-key="select_tasks_label"></span></label>
                             <div id="assignTaskCheckboxes" class="task-checkbox-grid"></div>
                         </div>
                         <div style="align-self: flex-end;">
-                            <button onclick="assignDailyTasks()" style="padding: 10px 18px;" data-i18n="btn_assign">Add Daily Entry</button>
+                            <button onclick="assignDailyTasks()" style="padding: 10px 18px;">Add Daily Entry <span class="trans-label" data-key="btn_assign"></span></button>
                         </div>
                     </div>
                 </div>
@@ -428,21 +428,21 @@
                 <!-- Admin & Employee Filter Box -->
                 <div class="filter-box">
                     <div id="filterEmpContainer">
-                        <label style="font-size: 12px; font-weight: bold;" data-i18n="filter_employee">Filter by Employee:</label>
+                        <label style="font-size: 12px; font-weight: bold;">Filter by Employee: <span class="trans-label" data-key="filter_employee"></span></label>
                         <select id="filterEmployee" onchange="renderSheetTable()" style="padding: 6px; border-radius: 4px; border: 1px solid #ccc; min-width: 150px;">
                             <option value="">All Employees</option>
                         </select>
                     </div>
                     <div>
-                        <label style="font-size: 12px; font-weight: bold;" data-i18n="filter_start_date">Start Date:</label>
+                        <label style="font-size: 12px; font-weight: bold;">Start Date: <span class="trans-label" data-key="filter_start_date"></span></label>
                         <input type="date" id="filterStartDate" onchange="renderSheetTable()" style="padding: 6px; border-radius: 4px; border: 1px solid #ccc;">
                     </div>
                     <div>
-                        <label style="font-size: 12px; font-weight: bold;" data-i18n="filter_end_date">End Date:</label>
+                        <label style="font-size: 12px; font-weight: bold;">End Date: <span class="trans-label" data-key="filter_end_date"></span></label>
                         <input type="date" id="filterEndDate" onchange="renderSheetTable()" style="padding: 6px; border-radius: 4px; border: 1px solid #ccc;">
                     </div>
                     <div>
-                        <button onclick="clearFilters()" style="background-color: #6c757d; padding: 7px 12px; font-size: 12px;" data-i18n="btn_clear_filter">Clear Filter</button>
+                        <button onclick="clearFilters()" style="background-color: #6c757d; padding: 7px 12px; font-size: 12px;">Clear Filter <span class="trans-label" data-key="btn_clear_filter"></span></button>
                     </div>
                 </div>
 
@@ -456,18 +456,18 @@
                     </table>
                 </div>
                 <div style="margin-top: 20px; display: flex; gap: 10px;">
-                    <button id="saveSheetDataBtn" onclick="saveSheetData()" data-i18n="btn_save_data">Save Sheet Data</button>
+                    <button id="saveSheetDataBtn" onclick="saveSheetData()">Save Sheet Data <span class="trans-label" data-key="btn_save_data"></span></button>
                 </div>
             </div>
 
             <!-- TAB 4: Profile Fields Setup -->
             <div id="profileFieldsMgmtTab" class="tab-content hidden">
                 <div class="card">
-                    <h3 data-i18n="profile_setup_title" style="margin-top:0;">Configure Profile Fields (e.g. Address)</h3>
-                    <p style="font-size: 13px; color: #666;" data-i18n="profile_setup_desc">Add fields here that employees need to fill in their profile section.</p>
+                    <h3 style="margin-top:0;">Configure Profile Fields (e.g. Address) <span class="trans-label" data-key="profile_setup_title"></span></h3>
+                    <p style="font-size: 13px; color: #666;">Add fields here that employees need to fill in their profile section. <span class="trans-label" data-key="profile_setup_desc"></span></p>
                     <div style="display:flex; gap:10px; max-width: 500px; margin-bottom: 15px;">
                         <input type="text" id="newProfileFieldName" placeholder="Field Name (e.g. Address, PAN, Phone)">
-                        <button onclick="addProfileField()" data-i18n="btn_add_field">Add Field</button>
+                        <button onclick="addProfileField()">Add Field <span class="trans-label" data-key="btn_add_field"></span></button>
                     </div>
                     <ul id="profileFieldsList" style="padding-left: 20px;"></ul>
                 </div>
@@ -479,11 +479,11 @@
     <!-- Profile Modal -->
     <div id="profileModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center;">
         <div class="card" style="width: 450px; max-width: 90%; max-height: 85vh; overflow-y: auto;">
-            <h3 data-i18n="my_profile_title" style="margin-top:0;">My Profile</h3>
+            <h3 style="margin-top:0;">My Profile Details <span class="trans-label" data-key="my_profile_title"></span></h3>
             <div id="profileFormContainer"></div>
             <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
-                <button onclick="closeProfileModal()" class="btn-danger" data-i18n="btn_close">Close</button>
-                <button onclick="saveProfileData()" data-i18n="btn_save">Save Profile</button>
+                <button onclick="closeProfileModal()" class="btn-danger">Close <span class="trans-label" data-key="btn_close"></span></button>
+                <button onclick="saveProfileData()">Save Profile <span class="trans-label" data-key="btn_save"></span></button>
             </div>
         </div>
     </div>
@@ -536,101 +536,8 @@
                 action: "Action (ક્રિયા)",
                 delete_task: "ડિલિટ",
                 edit_task: "એડિટ",
-                role_admin: "એડમિન ડેશબોર્ડ (Admin Dashboard)",
-                role_employee: "કર્મચારી ડેશબોર્ડ (Employee Dashboard)",
-                cols: {
-                    dateCol: "Date (તારીખ)",
-                    colA: "A: Name (નામ)",
-                    colB: "B: Salary (સેલેરી)",
-                    colC: "C: 10% Incentive",
-                    colD: "D: Per Day Incentive",
-                    colE: "E: 1% Indiscipline",
-                    colF: "F: 1% Over Time",
-                    colF1: "F1: Salary 8% (B*8/100)",
-                    colF2: "F2: Daily Task Inc (F1/30)",
-                    colG: "G: Task Name (ટાસ્ક)",
-                    colH: "H: Completed/Incomplete",
-                    colI: "I: Incentive as per status",
-                    colJ: "J: Total Tasks Allotted",
-                    colK: "K: Per Task Inc (F2/J)",
-                    colL: "L: Total Incentive",
-                    colM: "M: Eligible to Receive",
-                    colN: "N: Same Day No Sub (-)",
-                    colO: "O: Next Day No Rep (-)",
-                    colQ: "Q: Note (નોંધ)",
-                    colR: "R: Total Incomplete Tasks"
-                }
-            },
-            en: {
-                app_title: "Performance Sheet Portal",
-                login: "Login",
-                username: "Username",
-                password: "Password",
-                new_password: "New Password",
-                invalid_login: "Invalid Username or Password!",
-                logout: "Logout",
-                welcome: "Welcome, ",
-                register_link: "Register Profile",
-                btn_register: "Register",
-                btn_my_profile: "My Profile",
-                my_profile_title: "My Profile Details",
-                btn_close: "Close",
-                btn_save: "Save",
-                tab_profile_fields: "Profile Fields Setup",
-                profile_setup_title: "Configure Profile Fields",
-                profile_setup_desc: "Add fields here that employees need to fill in their profile.",
-                btn_add_field: "Add Field",
-                master_creds_title: "Complete Users List (Username, Password, Mobile, Role, Rights)",
-                admin_view_setting: "Admin View Permission Setting",
-                allow_admin_view_label: "Allow regular Admins to view full Users Credentials List",
-                forgot_pass_link: "Forgot Password?",
-                mobile_or_email: "Email ID or Mobile Number",
-                btn_reset: "Reset Password",
-                back_to_login: "Back to Login",
-                tab_users: "User & Rights Management",
-                tab_tasks: "Master Task List (Col G)",
-                tab_data: "Performance Data Sheet",
-                add_user: "Add User/Admin & Rights/Access",
-                select_visible_cols: "Select Visible Columns:",
-                btn_create_user: "Save User & Rights",
-                add_task: "Add / Edit Master Task",
-                btn_add_task: "Save Task",
-                performance_sheet: "Performance Entry Sheet",
-                admin_action_title: "Admin Panel: Assign Daily Tasks & Salary",
-                select_tasks_label: "Select Tasks (Multiple can be checked):",
-                btn_assign: "Add Daily Entry",
-                btn_save_data: "Save Data",
-                filter_employee: "Filter by Employee:",
-                filter_start_date: "Start Date:",
-                filter_end_date: "End Date:",
-                btn_clear_filter: "Clear Filter",
-                action: "Action",
-                delete_task: "Delete",
-                edit_task: "Edit",
-                role_admin: "Admin Dashboard",
-                role_employee: "Employee Dashboard",
-                cols: {
-                    dateCol: "Date",
-                    colA: "A: Name",
-                    colB: "B: Salary",
-                    colC: "C: 10% Incentive",
-                    colD: "D: Per Day Incentive",
-                    colE: "E: 1% Indiscipline",
-                    colF: "F: 1% Over Time",
-                    colF1: "F1: Salary 8% (B*8/100)",
-                    colF2: "F2: Daily Task Inc (F1/30)",
-                    colG: "G: Task Name",
-                    colH: "H: Completed/Incomplete",
-                    colI: "I: Incentive as per status",
-                    colJ: "J: Total Tasks Allotted",
-                    colK: "K: Per Task Inc (F2/J)",
-                    colL: "L: Total Incentive",
-                    colM: "M: Eligible to Receive",
-                    colN: "N: Same Day No Sub (-)",
-                    colO: "O: Next Day No Rep (-)",
-                    colQ: "Q: Note",
-                    colR: "R: Total Incomplete Tasks"
-                }
+                role_admin: "એડમિન ડેશબોર્ડ",
+                role_employee: "કર્મચારી ડેશબોર્ડ"
             },
             hi: {
                 app_title: "परफॉरमेंस शीट पोर्टल",
@@ -679,41 +586,80 @@
                 delete_task: "डिलिट",
                 edit_task: "संपादित करें",
                 role_admin: "एडमिन डैशबोर्ड",
-                role_employee: "कर्मचारी डैशबोर्ड",
-                cols: {
-                    dateCol: "Date (तारीख)",
-                    colA: "A: Name (નામ)",
-                    colB: "B: Salary (સેલેરી)",
-                    colC: "C: 10% Incentive",
-                    colD: "D: Per Day Incentive",
-                    colE: "E: 1% Indiscipline",
-                    colF: "F: 1% Over Time",
-                    colF1: "F1: Salary 8% (B*8/100)",
-                    colF2: "F2: Daily Task Inc (F1/30)",
-                    colG: "G: Task Name (ટાસ્ક)",
-                    colH: "H: Completed/Incomplete",
-                    colI: "I: Incentive as per status",
-                    colJ: "J: Total Tasks Allotted",
-                    colK: "K: Per Task Inc (F2/J)",
-                    colL: "L: Total Incentive",
-                    colM: "M: Eligible to Receive",
-                    colN: "N: Same Day No Sub (-)",
-                    colO: "O: Next Day No Rep (-)",
-                    colQ: "Q: Note (नोट)",
-                    colR: "R: Total Incomplete Tasks"
-                }
+                role_employee: "कर्मचारी डैशबोर्ड"
+            },
+            en: {
+                app_title: "Performance Sheet Portal",
+                login: "Login",
+                username: "Username",
+                password: "Password",
+                new_password: "New Password",
+                invalid_login: "Invalid Username or Password!",
+                logout: "Logout",
+                welcome: "Welcome, ",
+                register_link: "Register Profile",
+                btn_register: "Register",
+                btn_my_profile: "My Profile",
+                my_profile_title: "My Profile Details",
+                btn_close: "Close",
+                btn_save: "Save",
+                tab_profile_fields: "Profile Fields Setup",
+                profile_setup_title: "Configure Profile Fields",
+                profile_setup_desc: "Add fields here that employees need to fill in their profile.",
+                btn_add_field: "Add Field",
+                master_creds_title: "Complete Users List (Username, Password, Mobile, Role, Rights)",
+                admin_view_setting: "Admin View Permission Setting",
+                allow_admin_view_label: "Allow regular Admins to view full Users Credentials List",
+                forgot_pass_link: "Forgot Password?",
+                mobile_or_email: "Email ID or Mobile Number",
+                btn_reset: "Reset Password",
+                back_to_login: "Back to Login",
+                tab_users: "User & Rights Management",
+                tab_tasks: "Master Task List (Col G)",
+                tab_data: "Performance Data Sheet",
+                add_user: "Add User/Admin & Rights/Access",
+                select_visible_cols: "Select Visible Columns:",
+                btn_create_user: "Save User & Rights",
+                add_task: "Add / Edit Master Task",
+                btn_add_task: "Save Task",
+                performance_sheet: "Performance Entry Sheet",
+                admin_action_title: "Admin Panel: Assign Daily Tasks & Salary",
+                select_tasks_label: "Select Tasks (Multiple can be checked):",
+                btn_assign: "Add Daily Entry",
+                btn_save_data: "Save Data",
+                filter_employee: "Filter by Employee:",
+                filter_start_date: "Start Date:",
+                filter_end_date: "End Date:",
+                btn_clear_filter: "Clear Filter",
+                action: "Action",
+                delete_task: "Delete",
+                edit_task: "Edit",
+                role_admin: "Admin Dashboard",
+                role_employee: "Employee Dashboard"
             }
         };
 
         const colKeys = ['dateCol', 'colA', 'colB', 'colC', 'colD', 'colE', 'colF', 'colF1', 'colF2', 'colG', 'colH', 'colI', 'colJ', 'colK', 'colL', 'colM', 'colN', 'colO', 'colQ', 'colR'];
+        
+        const colTranslations = {
+            gu: {
+                dateCol: "Date (તારીખ)", colA: "A: Name (નામ)", colB: "B: Salary (સેલેરી)", colC: "C: 10% Incentive", colD: "D: Per Day Incentive", colE: "E: 1% Indiscipline", colF: "F: 1% Over Time", colF1: "F1: Salary 8% (B*8/100)", colF2: "F2: Daily Task Inc (F1/30)", colG: "G: Task Name (ટાસ્ક)", colH: "H: Completed/Incomplete", colI: "I: Incentive as per status", colJ: "J: Total Tasks Allotted", colK: "K: Per Task Inc (F2/J)", colL: "L: Total Incentive", colM: "M: Eligible to Receive", colN: "N: Same Day No Sub (-)", colO: "O: Next Day No Rep (-)", colQ: "Q: Note (નોંધ)", colR: "R: Total Incomplete Tasks"
+            },
+            hi: {
+                dateCol: "Date (तारीख)", colA: "A: Name (नाम)", colB: "B: Salary (सैलरी)", colC: "C: 10% Incentive", colD: "D: Per Day Incentive", colE: "E: 1% Indiscipline", colF: "F: 1% Over Time", colF1: "F1: Salary 8% (B*8/100)", colF2: "F2: Daily Task Inc (F1/30)", colG: "G: Task Name (टास्क)", colH: "H: Completed/Incomplete", colI: "I: Incentive as per status", colJ: "J: Total Tasks Allotted", colK: "K: Per Task Inc (F2/J)", colL: "L: Total Incentive", colM: "M: Eligible to Receive", colN: "N: Same Day No Sub (-)", colO: "O: Next Day No Rep (-)", colQ: "Q: Note (नोट)", colR: "R: Total Incomplete Tasks"
+            },
+            en: {
+                dateCol: "Date", colA: "A: Name", colB: "B: Salary", colC: "C: 10% Incentive", colD: "D: Per Day Incentive", colE: "E: 1% Indiscipline", colF: "F: 1% Over Time", colF1: "F1: Salary 8% (B*8/100)", colF2: "F2: Daily Task Inc (F1/30)", colG: "G: Task Name", colH: "H: Completed/Incomplete", colI: "I: Incentive as per status", colJ: "J: Total Tasks Allotted", colK: "K: Per Task Inc (F2/J)", colL: "L: Total Incentive", colM: "M: Eligible to Receive", colN: "N: Same Day No Sub (-)", colO: "O: Next Day No Rep (-)", colQ: "Q: Note", colR: "R: Total Incomplete Tasks"
+            }
+        };
 
         let currentLang = 'gu';
         let currentUser = null;
 
         let users = JSON.parse(localStorage.getItem('app_users')) || [
-            { username: 'master', password: '123', contact: 'master@admin.com', profileData: {}, role: 'master_admin', accessMode: 'delete', taskAccess: 'delete', rights: colKeys },
-            { username: 'admin', password: '123', contact: 'admin@admin.com', profileData: {}, role: 'admin', accessMode: 'read', taskAccess: 'read', rights: colKeys },
-            { username: 'Demo', password: '123', contact: '9876543210', profileData: { Address: 'Ahmedabad' }, role: 'employee', accessMode: 'edit', taskAccess: 'none', rights: colKeys }
+            { username: 'master', password: '123', contact: 'master@admin.com', salary: 0, profileData: {}, role: 'master_admin', accessMode: 'delete', taskAccess: 'delete', rights: colKeys },
+            { username: 'admin', password: '123', contact: 'admin@admin.com', salary: 0, profileData: {}, role: 'admin', accessMode: 'read', taskAccess: 'read', rights: colKeys },
+            { username: 'Demo', password: '123', contact: '9876543210', salary: 15000, profileData: { Address: 'Ahmedabad' }, role: 'employee', accessMode: 'edit', taskAccess: 'none', rights: colKeys }
         ];
 
         let masterTasks = JSON.parse(localStorage.getItem('app_tasks')) || ["Task 1", "Task 2", "Task 3"];
@@ -726,10 +672,16 @@
 
         function changeLanguage(lang) {
             currentLang = lang;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    el.innerText = translations[lang][key];
+            document.querySelectorAll('.trans-label').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang] && translations[lang][key]) {
+                    if (lang === 'en') {
+                        el.innerText = '';
+                    } else {
+                        el.innerText = `(${translations[lang][key]})`;
+                    }
+                } else {
+                    el.innerText = '';
                 }
             });
             renderPermissionsCheckboxes();
@@ -740,21 +692,18 @@
             document.getElementById('loginFields').classList.add('hidden');
             document.getElementById('forgotFields').classList.add('hidden');
             document.getElementById('registerFields').classList.remove('hidden');
-            document.getElementById('loginFormTitle').innerText = translations[currentLang].register_link;
         }
 
         function showForgotForm() {
             document.getElementById('loginFields').classList.add('hidden');
             document.getElementById('registerFields').classList.add('hidden');
             document.getElementById('forgotFields').classList.remove('hidden');
-            document.getElementById('loginFormTitle').innerText = translations[currentLang].forgot_pass_link;
         }
 
         function showLoginForm() {
             document.getElementById('forgotFields').classList.add('hidden');
             document.getElementById('registerFields').classList.add('hidden');
             document.getElementById('loginFields').classList.remove('hidden');
-            document.getElementById('loginFormTitle').innerText = translations[currentLang].login;
             document.getElementById('forgotMsg').style.display = 'none';
             document.getElementById('regMsg').style.display = 'none';
         }
@@ -784,6 +733,7 @@
                 username: u,
                 password: p,
                 contact: c,
+                salary: 0,
                 profileData: {},
                 role: 'employee',
                 accessMode: 'edit',
@@ -981,9 +931,10 @@
 
             colKeys.forEach(key => {
                 const div = document.createElement('div');
+                let colName = colTranslations[currentLang][key] || colTranslations['en'][key];
                 div.innerHTML = `
                     <input type="checkbox" id="chk_${key}" value="${key}" checked ${!canEditRights ? 'disabled' : ''}>
-                    <label for="chk_${key}" style="display:inline; font-weight:normal;">${translations[currentLang].cols[key]}</label>
+                    <label for="chk_${key}" style="display:inline; font-weight:normal;">${colName}</label>
                 `;
                 container.appendChild(div);
             });
@@ -1015,7 +966,7 @@
             if (existingIdx >= 0) {
                 users[existingIdx] = { ...users[existingIdx], username: u, password: p, contact: c, role: r, accessMode: am, taskAccess: ta, rights: selectedRights };
             } else {
-                users.push({ username: u, password: p, contact: c, profileData: {}, role: r, accessMode: am, taskAccess: ta, rights: selectedRights });
+                users.push({ username: u, password: p, contact: c, salary: 0, profileData: {}, role: r, accessMode: am, taskAccess: ta, rights: selectedRights });
             }
 
             localStorage.setItem('app_users', JSON.stringify(users));
@@ -1038,10 +989,8 @@
             if (!tName) return alert("Please enter task name!");
 
             if (editIndex >= 0) {
-                // Edit existing task
                 masterTasks[editIndex] = tName;
             } else {
-                // Add new task
                 masterTasks.push(tName);
             }
 
@@ -1055,14 +1004,14 @@
         function editTask(index) {
             document.getElementById('newTaskName').value = masterTasks[index];
             document.getElementById('editTaskIndex').value = index;
-            document.getElementById('addTaskBtn').innerText = translations[currentLang].btn_add_task.replace('Add', 'Update').replace('ઉમેરો', 'અપડેટ કરો');
+            document.getElementById('addTaskBtn').innerText = translations[currentLang].btn_add_task || "Save Task";
             document.getElementById('cancelTaskEditBtn').classList.remove('hidden');
         }
 
         function cancelTaskEdit() {
             document.getElementById('newTaskName').value = '';
             document.getElementById('editTaskIndex').value = '-1';
-            document.getElementById('addTaskBtn').innerText = translations[currentLang].btn_add_task;
+            document.getElementById('addTaskBtn').innerText = "Save Task";
             document.getElementById('cancelTaskEditBtn').classList.add('hidden');
         }
 
@@ -1081,11 +1030,13 @@
 
             masterTasks.forEach((t, i) => {
                 let actionBtns = '';
+                let editTxt = translations[currentLang].edit_task || "Edit";
+                let delTxt = translations[currentLang].delete_task || "Delete";
                 if(canAdd) {
-                    actionBtns += `<button class="btn-warning" style="padding:2px 8px; font-size: 11px; margin-left: 10px;" onclick="editTask(${i})">${translations[currentLang].edit_task}</button>`;
+                    actionBtns += `<button class="btn-warning" style="padding:2px 8px; font-size: 11px; margin-left: 10px;" onclick="editTask(${i})">${editTxt}</button>`;
                 }
                 if(canDelete) {
-                    actionBtns += `<button class="btn-danger" style="padding:2px 8px; font-size: 11px; margin-left: 6px;" onclick="removeTask(${i})">${translations[currentLang].delete_task}</button>`;
+                    actionBtns += `<button class="btn-danger" style="padding:2px 8px; font-size: 11px; margin-left: 6px;" onclick="removeTask(${i})">${delTxt}</button>`;
                 }
                 list.innerHTML += `<li style="margin-bottom: 8px; display: flex; align-items: center;"><span>${t}</span> ${actionBtns}</li>`;
             });
@@ -1185,6 +1136,7 @@
                 users.filter(u => u.role === 'employee').forEach(u => {
                     uSelect.innerHTML += `<option value="${u.username}">${u.username}</option>`;
                 });
+                onAssignEmployeeChange(); // Load initial employee salary
             }
 
             if(taskCheckboxContainer) {
@@ -1210,6 +1162,18 @@
                     filterEmp.innerHTML += `<option value="${u.username}">${u.username}</option>`;
                 });
                 filterEmp.value = currentVal;
+            }
+        }
+
+        function onAssignEmployeeChange() {
+            const uSelect = document.getElementById('assignUserSelect');
+            const salInput = document.getElementById('inputSalary');
+            if(!uSelect || !salInput) return;
+
+            const selectedEmpName = uSelect.value;
+            const empObj = users.find(u => u.username === selectedEmpName);
+            if(empObj) {
+                salInput.value = empObj.salary || '';
             }
         }
 
@@ -1286,6 +1250,13 @@
             if (!dt) return alert("Please select a date!");
             if (!u) return alert("Please select an employee!");
 
+            // Save salary into employee profile as well
+            let empObj = users.find(user => user.username === u);
+            if(empObj) {
+                empObj.salary = sal;
+                localStorage.setItem('app_users', JSON.stringify(users));
+            }
+
             const checkedTasks = [];
             document.querySelectorAll('input[name="selectedAssignTasks"]:checked').forEach(chk => {
                 checkedTasks.push(chk.value);
@@ -1295,7 +1266,6 @@
                 return alert("Please select at least one task!");
             }
 
-            // Add each checked task as a separate row entry for the employee
             checkedTasks.forEach(taskName => {
                 sheetData.push({
                     dateCol: dt,
@@ -1322,7 +1292,6 @@
                 });
             });
 
-            // Uncheck checkboxes after adding
             document.querySelectorAll('input[name="selectedAssignTasks"]').forEach(chk => {
                 chk.checked = false;
             });
@@ -1365,11 +1334,15 @@
 
             colKeys.forEach(colKey => {
                 if (userRights.includes(colKey)) {
-                    headerTr.innerHTML += `<th>${translations[currentLang].cols[colKey] || colKey}</th>`;
+                    let colName = colTranslations[currentLang][colKey] || colTranslations['en'][colKey];
+                    headerTr.innerHTML += `<th>${colName}</th>`;
                 }
             });
             if (isAdmin && currentUser.accessMode !== 'read') {
-                headerTr.innerHTML += `<th>${translations[currentLang].action}</th>`;
+                let actionText = "Action";
+                if(currentLang === 'gu') actionText = "Action (ક્રિયા)";
+                if(currentLang === 'hi') actionText = "Action";
+                headerTr.innerHTML += `<th>${actionText}</th>`;
             }
 
             let filteredRows = isAdmin ? sheetData : sheetData.filter(row => row.colA === currentUser.username);
@@ -1437,8 +1410,9 @@
 
                 if (isAdmin && currentUser.accessMode !== 'read') {
                     let actionTd = document.createElement('td');
+                    let delText = translations[currentLang].delete_task || "Delete";
                     if(currentUser.accessMode === 'delete' || currentUser.role === 'master_admin') {
-                        actionTd.innerHTML = `<button class="btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="deleteSheetRow(${actualIndex})">${translations[currentLang].delete_task}</button>`;
+                        actionTd.innerHTML = `<button class="btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="deleteSheetRow(${actualIndex})">${delText}</button>`;
                     } else {
                         actionTd.innerHTML = `-`;
                     }
