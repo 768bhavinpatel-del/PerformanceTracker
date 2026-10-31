@@ -293,18 +293,18 @@
                 </div>
             </div>
 
-            <!-- Navigation Tabs (Visible to Admins / Master Admin) -->
+            <!-- Navigation Tabs -->
             <div id="adminNav" class="nav-tabs hidden">
-                <button class="active" onclick="switchTab('userMgmt')" data-i18n="tab_users">User & Admin Management</button>
+                <button class="active" onclick="switchTab('userMgmt')" data-i18n="tab_users">User & Rights Management</button>
                 <button onclick="switchTab('taskMgmt')" data-i18n="tab_tasks">Master Task List (Col G)</button>
                 <button onclick="switchTab('dataSheet')" data-i18n="tab_data">Performance Data Sheet</button>
                 <button onclick="switchTab('profileFieldsMgmt')" data-i18n="tab_profile_fields">Profile Fields Setup</button>
             </div>
 
-            <!-- TAB 1: User & Admin Rights Management -->
+            <!-- TAB 1: User & Rights Management (Master Admin / Admin) -->
             <div id="userMgmtTab" class="tab-content hidden">
                 <div class="card">
-                    <h3 data-i18n="add_user" style="margin-top:0;">Add User / Admin & Assign Rights</h3>
+                    <h3 data-i18n="add_user" style="margin-top:0;">Add User / Admin & Assign Rights & Access Level</h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
                         <input type="text" id="newUsername" placeholder="Username">
                         <input type="password" id="newPassword" placeholder="Password">
@@ -314,12 +314,36 @@
                             <option value="admin">Admin</option>
                             <option value="master_admin">Master Admin</option>
                         </select>
+                        <select id="newUserAccessMode">
+                            <option value="read">Read Only</option>
+                            <option value="edit">Edit</option>
+                            <option value="delete">Edit & Delete</option>
+                        </select>
                     </div>
 
-                    <h4 style="margin-top: 20px;" data-i18n="select_visible_cols">Select Visible/Editable Columns:</h4>
+                    <h4 style="margin-top: 20px;" data-i18n="select_visible_cols">Select Visible Columns:</h4>
                     <div class="permissions-grid" id="colPermissions"></div>
 
-                    <button style="margin-top: 20px;" onclick="createUser()" data-i18n="btn_create_user">Save User Rights</button>
+                    <button style="margin-top: 20px;" onclick="createUser()" data-i18n="btn_create_user">Save User & Rights</button>
+                </div>
+
+                <!-- Master Admin View: All Users Passwords List -->
+                <div id="masterAdminCredsCard" class="card hidden" style="background: #fff8e1; border-left: 4px solid #f39c12;">
+                    <h3 style="margin-top:0; color: #d35400;" data-i18n="master_creds_title">Master Admin: All Users Credentials List</h3>
+                    <div style="overflow-x: auto;">
+                        <table style="background: white;">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>Role</th>
+                                    <th>Contact / Email</th>
+                                    <th>Access Mode</th>
+                                </tr>
+                            </thead>
+                            <tbody id="masterCredsBody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -449,14 +473,15 @@
                 profile_setup_title: "પ્રોફાઈલ ફિલ્ડ્સ ઉમેરો (દા.ત. એડ્રેસ)",
                 profile_setup_desc: "અહીં જે ફિલ્ડ ઉમેરશો તે કર્મચારી પોતાની પ્રોફાઈલમાં ભરી શકશે.",
                 btn_add_field: "ફિલ્ડ ઉમેરો",
+                master_creds_title: "માસ્ટર એડમિન: બધા યુઝર્સના પાસવર્ડ લિસ્ટ",
                 forgot_pass_link: "પાસવર્ડ ભૂલી ગયા છો?",
                 mobile_or_email: "ઈમેલ આઈડી અથવા મોબાઈલ નંબર",
                 btn_reset: "પાસવર્ડ રીસેટ કરો",
                 back_to_login: "લોગિન પર પાછા જાઓ",
-                tab_users: "યુઝર અને એડમિન મેનેજમેન્ટ",
+                tab_users: "યુઝર અને રાઈટ્સ મેનેજમેન્ટ",
                 tab_tasks: "માસ્ટર ટાસ્ક લિસ્ટ (કોલમ G)",
                 tab_data: "પર્ફોર્મન્સ ડેટા શીટ",
-                add_user: "નવો યુઝર/એડમિન અને રાઈટ્સ ઉમેરો",
+                add_user: "નવો યુઝર/એડમિન અને રાઈટ્સ/એક્સેસ ઉમેરો",
                 select_visible_cols: "એક્સેસ આપવાની હોય તે કોલમ પસંદ કરો:",
                 btn_create_user: "યુઝર સેટિંગ્સ સેવ કરો",
                 add_task: "માસ્ટર ટાસ્ક ઉમેરો (કોલમ G)",
@@ -515,16 +540,17 @@
                 profile_setup_title: "Configure Profile Fields",
                 profile_setup_desc: "Add fields here that employees need to fill in their profile.",
                 btn_add_field: "Add Field",
+                master_creds_title: "Master Admin: All Users Credentials List",
                 forgot_pass_link: "Forgot Password?",
                 mobile_or_email: "Email ID or Mobile Number",
                 btn_reset: "Reset Password",
                 back_to_login: "Back to Login",
-                tab_users: "User & Admin Management",
+                tab_users: "User & Rights Management",
                 tab_tasks: "Master Task List (Col G)",
                 tab_data: "Performance Data Sheet",
-                add_user: "Add User/Admin & Assign Rights",
-                select_visible_cols: "Select Visible/Editable Columns:",
-                btn_create_user: "Save User Rights",
+                add_user: "Add User/Admin & Rights/Access",
+                select_visible_cols: "Select Visible Columns:",
+                btn_create_user: "Save User & Rights",
                 add_task: "Add Master Task (Col G)",
                 btn_add_task: "Add Task",
                 performance_sheet: "Performance Entry Sheet",
@@ -581,14 +607,15 @@
                 profile_setup_title: "प्रोफाइल फील्ड्स कॉन्फ़िगर करें",
                 profile_setup_desc: "यहाँ फ़ील्ड जोड़ें जिन्हें कर्मचारी अपनी प्रोफाइल में भर सकें।",
                 btn_add_field: "फ़ील्ड जोड़ें",
+                master_creds_title: "मास्टर एडमिन: सभी यूज़र्स के पासवर्ड लिस्ट",
                 forgot_pass_link: "पासवर्ड भूल गए?",
                 mobile_or_email: "ईमेल आईडी या मोबाइल नंबर",
                 btn_reset: "पासवर्ड रीसेट करें",
                 back_to_login: "लॉगिन पर वापस जाएं",
-                tab_users: "यूज़र और एडमिन मैनेजमेंट",
+                tab_users: "यूज़र और राइट्स मैनेजमेंट",
                 tab_tasks: "मास्टर टास्क लिस्ट (कॉलम G)",
                 tab_data: "परफॉरमेंस डेटा शीट",
-                add_user: "नया यूज़र/एडमिन और राइट्स जोड़ें",
+                add_user: "नया यूज़र/एडमिन और राइट्स/एक्सेस जोड़ें",
                 select_visible_cols: "एक्सेस देने वाले कॉलम चुनें:",
                 btn_create_user: "यूज़र सेटिंग्स सेव करें",
                 add_task: "मास्टर टास्क जोड़ें (कॉलम G)",
@@ -615,7 +642,7 @@
                     colF: "F: 1% Over Time",
                     colF1: "F1: Salary 8% (B*8/100)",
                     colF2: "F2: Daily Task Inc (F1/30)",
-                    colG: "G: Task Name (टास्क)",
+                    colG: "G: Task Name (ટાસ્ક)",
                     colH: "H: Completed/Incomplete",
                     colI: "I: Incentive as per status",
                     colJ: "J: Total Tasks Allotted",
@@ -636,9 +663,9 @@
         let currentUser = null;
 
         let users = JSON.parse(localStorage.getItem('app_users')) || [
-            { username: 'master', password: '123', contact: 'master@admin.com', profileData: {}, role: 'master_admin', rights: colKeys },
-            { username: 'admin', password: '123', contact: 'admin@admin.com', profileData: {}, role: 'admin', rights: colKeys },
-            { username: 'Demo', password: '123', contact: '9876543210', profileData: { Address: 'Ahmedabad' }, role: 'employee', rights: colKeys }
+            { username: 'master', password: '123', contact: 'master@admin.com', profileData: {}, role: 'master_admin', accessMode: 'delete', rights: colKeys },
+            { username: 'admin', password: '123', contact: 'admin@admin.com', profileData: {}, role: 'admin', accessMode: 'delete', rights: colKeys },
+            { username: 'Demo', password: '123', contact: '9876543210', profileData: { Address: 'Ahmedabad' }, role: 'employee', accessMode: 'edit', rights: colKeys }
         ];
 
         let masterTasks = JSON.parse(localStorage.getItem('app_tasks')) || ["Task 1", "Task 2", "Task 3"];
@@ -710,6 +737,7 @@
                 contact: c,
                 profileData: {},
                 role: 'employee',
+                accessMode: 'edit',
                 rights: colKeys
             });
             localStorage.setItem('app_users', JSON.stringify(users));
@@ -770,11 +798,20 @@
                     document.getElementById('adminNav').classList.remove('hidden');
                     document.getElementById('adminActionBox').classList.remove('hidden');
                     document.getElementById('filterEmpContainer').style.display = 'block';
+                    
+                    if (currentUser.role === 'master_admin') {
+                        document.getElementById('masterAdminCredsCard').classList.remove('hidden');
+                        renderMasterCredentialsTable();
+                    } else {
+                        document.getElementById('masterAdminCredsCard').classList.add('hidden');
+                    }
+
                     switchTab('userMgmt');
                 } else {
                     document.getElementById('adminNav').classList.add('hidden');
                     document.getElementById('adminActionBox').classList.add('hidden');
                     document.getElementById('filterEmpContainer').style.display = 'none';
+                    document.getElementById('masterAdminCredsCard').classList.add('hidden');
                     switchTab('dataSheet');
                 }
                 populateTaskAssignOptions();
@@ -801,6 +838,9 @@
 
             if (tabName === 'userMgmt') {
                 document.getElementById('userMgmtTab').classList.remove('hidden');
+                if (currentUser.role === 'master_admin') {
+                    renderMasterCredentialsTable();
+                }
                 if(event && event.target) event.target.classList.add('active');
             } else if (tabName === 'taskMgmt') {
                 document.getElementById('taskMgmtTab').classList.remove('hidden');
@@ -816,6 +856,23 @@
                 renderProfileFieldsList();
                 if(event && event.target) event.target.classList.add('active');
             }
+        }
+
+        function renderMasterCredentialsTable() {
+            const tbody = document.getElementById('masterCredsBody');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            users.forEach(usr => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${usr.username}</b></td>
+                        <td><span style="background: #eef2f7; padding: 3px 6px; border-radius: 4px; font-family: monospace;">${usr.password}</span></td>
+                        <td>${usr.role}</td>
+                        <td>${usr.contact || '-'}</td>
+                        <td>${usr.accessMode || 'edit'}</td>
+                    </tr>
+                `;
+            });
         }
 
         function renderPermissionsCheckboxes() {
@@ -836,6 +893,7 @@
             const p = document.getElementById('newPassword').value.trim();
             const c = document.getElementById('newContact').value.trim();
             const r = document.getElementById('newUserRole').value;
+            const am = document.getElementById('newUserAccessMode').value;
 
             if (!u || !p || !c) return alert("Please fill username, password and contact!");
 
@@ -849,9 +907,9 @@
 
             const existingIdx = users.findIndex(user => user.username === u);
             if (existingIdx >= 0) {
-                users[existingIdx] = { username: u, password: p, contact: c, role: r, rights: selectedRights };
+                users[existingIdx] = { ...users[existingIdx], username: u, password: p, contact: c, role: r, accessMode: am, rights: selectedRights };
             } else {
-                users.push({ username: u, password: p, contact: c, profileData: {}, role: r, rights: selectedRights });
+                users.push({ username: u, password: p, contact: c, profileData: {}, role: r, accessMode: am, rights: selectedRights });
             }
 
             localStorage.setItem('app_users', JSON.stringify(users));
@@ -860,6 +918,7 @@
             document.getElementById('newPassword').value = '';
             document.getElementById('newContact').value = '';
             populateTaskAssignOptions();
+            if(currentUser.role === 'master_admin') renderMasterCredentialsTable();
         }
 
         function addMasterTask() {
@@ -925,7 +984,7 @@
             if(!currentUser.profileData) currentUser.profileData = {};
 
             if(profileFields.length === 0) {
-                container.innerHTML = `<p style="color:#666;">No profile fields configured by admin yet.</p>`;
+                container.innerHTML = `<p style="color:#666;">No profile fields configured by master admin yet.</p>`;
             } else {
                 profileFields.forEach(field => {
                     let val = currentUser.profileData[field] || '';
@@ -1005,22 +1064,18 @@
                 row.colE = sal * 0.01;
                 row.colF = sal * 0.01;
 
-                // F1 = B column number * 8 / 100
                 let f1Val = (sal * 8) / 100;
                 row.colF1 = f1Val.toFixed(2);
 
-                // F2 = F1 / 30
                 let f2Val = f1Val / 30;
                 row.colF2 = f2Val.toFixed(2);
 
-                // K column = F2 column / J column
                 let kVal = 0;
                 if (jCount > 0) {
                     kVal = f2Val / jCount;
                 }
                 row.colK = kVal.toFixed(2);
 
-                // I Column: If completed, give K column amount, if incomplete give 0
                 let incAmount = 0;
                 if (row.colH === 'Completed') {
                     incAmount = parseFloat(kVal.toFixed(2));
@@ -1091,6 +1146,9 @@
         }
 
         function deleteSheetRow(index) {
+            if (currentUser.accessMode === 'read') {
+                return alert("You have Read Only access. You cannot delete tasks.");
+            }
             if (confirm("Are you sure you want to delete this task entry?")) {
                 sheetData.splice(index, 1);
                 recalculateAllRows();
@@ -1123,7 +1181,7 @@
                     headerTr.innerHTML += `<th>${translations[currentLang].cols[colKey] || colKey}</th>`;
                 }
             });
-            if (isAdmin) {
+            if (isAdmin && currentUser.accessMode !== 'read') {
                 headerTr.innerHTML += `<th>${translations[currentLang].action}</th>`;
             }
 
@@ -1154,7 +1212,9 @@
                         let td = document.createElement('td');
                         
                         let isEditable = true;
-                        if (!isAdmin) {
+                        if (currentUser.accessMode === 'read') {
+                            isEditable = false;
+                        } else if (!isAdmin) {
                             if (colKey === 'colH') {
                                 if (row.isSubmitted) {
                                     isEditable = false; 
@@ -1188,9 +1248,13 @@
                     }
                 });
 
-                if (isAdmin) {
+                if (isAdmin && currentUser.accessMode !== 'read') {
                     let actionTd = document.createElement('td');
-                    actionTd.innerHTML = `<button class="btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="deleteSheetRow(${actualIndex})">${translations[currentLang].delete_task}</button>`;
+                    if(currentUser.accessMode === 'delete' || currentUser.role === 'master_admin') {
+                        actionTd.innerHTML = `<button class="btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="deleteSheetRow(${actualIndex})">${translations[currentLang].delete_task}</button>`;
+                    } else {
+                        actionTd.innerHTML = `-`;
+                    }
                     tr.appendChild(actionTd);
                 }
 
@@ -1208,12 +1272,18 @@
         }
 
         function updateCellData(rowIndex, colKey, value) {
+            if (currentUser.accessMode === 'read') {
+                return alert("You have Read Only access.");
+            }
             sheetData[rowIndex][colKey] = value;
             recalculateAllRows();
             renderSheetTable();
         }
 
         function saveSheetData() {
+            if (currentUser.accessMode === 'read') {
+                return alert("You have Read Only access.");
+            }
             recalculateAllRows();
             alert("Data saved successfully!");
         }
